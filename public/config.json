@@ -1,0 +1,9 @@
+{
+	"AUTH_URL":"http://192.168.0.30/dynapack-authentication/hash.php",
+	"BASE_URL": "http://192.168.0.30/dynapack/clients/bitusi/public/index.php",
+	"PROJECT_BASE_URL": "http://192.168.0.30/dynapack/clients/bitusi/public",
+	"API_BASE_URL": "http://192.168.0.30/dynapack/clients/bitusi/public/api.php",
+	"FILE_MANAGER": "http://192.168.0.30/dynapack/clients/bitusi/public/admin/bridges/php-local/index.php",
+	"UPLOAD_PATH": "http://192.168.0.30/dynapack/clients/bitusi/public/uploads",
+	"CMS_BASE_URL": "http://192.168.0.30/dynapack/clients/bitusi/public/index.php"
+}
