@@ -64,7 +64,8 @@ const actions = {
 					return response
 				}).catch(error => {
 					console.log('Request error: ', error)
-					return error
+					return Promise.reject(error)
+					// return error
 				})
 			} else {
 				expiredTokenHandler(method, url, data)

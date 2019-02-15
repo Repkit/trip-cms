@@ -4,7 +4,7 @@ import Api from './modules/Api'
 import SessionService from './modules/SessionService'
 import GetPages from './modules/GetPages'
 import GetSnippets from './modules/GetSnippets'
-import Page from './modules/Page'
+// import Page from './modules/Page'
 import Snippet from './modules/Snippet'
 import EditorSettings from './modules/EditorSettings'
 import FileBrowser from './modules/FileBrowser'
@@ -42,7 +42,7 @@ export default new Vuex.Store({
 		SessionService,
 		GetPages,
 		GetSnippets,
-		Page,
+		// Page,
 		Snippet,
 		EditorSettings,
 		FileBrowser,

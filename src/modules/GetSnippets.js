@@ -256,7 +256,11 @@ const actions = {
 		})
 	},
 	fetchSnippets ({ commit, dispatch }) {
-		dispatch('callApi', { method: 'GET', ingoreBaseUrl: true, url: this._vm.CMS_BASE_URL + '/cms/snippets' }).then((resp) => {
+		dispatch('callApi', { 
+			method: 'GET', 
+			ingoreBaseUrl: true, 
+			url: this._vm.CMS_BASE_URL + '/cms/snippets' 
+		}).then((resp) => {
 			commit('LOAD_SNIPPETS', resp.data._embedded.snippets)
 		}).catch((err) => {
 			console.log(err)
@@ -264,14 +268,20 @@ const actions = {
 		})
 	},
 	fetchWidgets ({ commit, dispatch }) {
-		dispatch('callApi', { method: 'GET', url: '/widget-builder/widgets' }).then((resp) => {
+		dispatch('callApi', { 
+			method: 'GET', 
+			url: '/widget-builder/widgets' 
+		}).then((resp) => {
 			commit('LOAD_WIDGETS', resp.data._embedded.widget_builder)
 		}).catch((err) => {
 			console.log(err)
 		})
 	},
 	fetchDataSource ({ commit, dispatch }) {
-		dispatch('callApi', { method: 'GET', url: '/widget-builder/data-sources' }).then((resp) => {
+		dispatch('callApi', { 
+			method: 'GET', 
+			url: '/widget-builder/data-sources' 
+		}).then((resp) => {
 			commit('LOAD_DATASOURCE', resp.data._embedded.widget_data_sources)
 		}).catch((err) => {
 			console.log(err)

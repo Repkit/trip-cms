@@ -36,8 +36,15 @@
 						<div class="input-holder">
 							<label>Full Page</label>
 							<div class="togglecheckbox" style="justify-content: flex-start">
-								<span id="dyamic" :class="['toggle-icon', isFullPage ? 'checked' : '']" @click="toggleStaus"></span>
-								<label class="label-text" for="dyamic" @click="toggleStaus">Full Page</label>
+								<span id="dyamic" class="toggle-icon" :class="{'checked': isFullPage}" @click="toggleFullPage"></span>
+								<label class="label-text" for="dyamic" @click="toggleFullPage">Full Page</label>
+							</div>
+						</div>
+						<div class="input-holder">
+							<label>Static Page</label>
+							<div class="togglecheckbox" style="justify-content: flex-start">
+								<span id="dyamic" class="toggle-icon" :class="{'checked': isStaticPage}" @click="toggleStatic"></span>
+								<label class="label-text" for="dyamic" @click="toggleStatic">Static Page</label>
 							</div>
 						</div>
 					</form>
@@ -101,6 +108,7 @@ export default {
 			// old
 			pageHead: '',
 			isFullPage: false,
+			isStaticPage: false,
 			selectedSnippet: '',
 			insertString: '',
 			mousemove: false,
@@ -118,12 +126,20 @@ export default {
 		}
 	},
 	methods: {
-		toggleStaus() {
+		toggleFullPage() {
 			this.isFullPage = !this.isFullPage;
 			if (this.isFullPage) {
 				this.page.FullPage = '1';
 			} else {
 				this.page.FullPage = '0';
+			}
+		},
+		toggleStatic() {
+			this.isStaticPage = !this.isStaticPage;
+			if (this.isStaticPage) {
+				this.page.StaticPage = '1';
+			} else {
+				this.page.StaticPage = '0';
 			}
 		},
 		insertSnippet () {
@@ -191,6 +207,8 @@ export default {
 		this.sec_height = (mainHeight)
 		this.full_width = mainWidth - 1
 		this.full_height = mainHeight - 47
+		this.isStaticPage = this.page.StaticPage
+		this.isFullPage = this.page.FullPage
 	},
 	computed: {
 		settings () {
@@ -198,6 +216,7 @@ export default {
 		},
 		page () {
 			return this.$store.getters.getPage
+			// return this.$store.getters['GetPages/getPage']
 		},
 		snippets () {
 			return this.$store.getters.getSnippets
@@ -215,6 +234,7 @@ export default {
 		let pageid = this.$route.params.id
 		if (pageid.length > 0) {
 			this.$store.dispatch('loadPage', this.$route.params.id)
+			this.$store.dispatch('fetchSnippets')
 		}
 	}
 }

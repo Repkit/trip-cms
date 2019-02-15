@@ -1,7 +1,27 @@
 import router from '../router'
 
 const state = {
-	page: {},
+	page: {
+	  "Id": "",
+	  "Name": "",
+	  "Content": "",
+	  "Head": "",
+	  "StaticPage": "",
+	  "Crawlable": "",
+	  "Category": "",
+	  "Details": "",
+	  "FullPage": "",
+	  "Status": "",
+	  "Timestamp": "",
+	  "_links": {
+	    "self": {
+	      "href": ""
+	    },
+	    "page-url": {
+	      "href": ""
+	    }
+	  }
+	},
 	pages: []
 }
 
@@ -71,7 +91,8 @@ const actions = {
 		})
 	},
 	savePage ({ commit, dispatch }, payload) {
-		dispatch('callApi', { method: 'PATCH',
+		dispatch('callApi', { 
+			method: 'PATCH',
 			ingoreBaseUrl: true,
 			url: this._vm.CMS_BASE_URL + '/cms/pages/' + payload.Id,
 			data: {
@@ -85,17 +106,24 @@ const actions = {
 				Name: payload.Name,
 				StaticPage: payload.StaticPage,
 				Status: payload.Status
-			} }).then((resp) => {
+			} 
+		}).then((resp) => {
 			commit('LOAD_PAGE', resp.data)
 			router.push({ name: 'page', params: { id: resp.data.Id } })
 			commit('Toast/_add', 'Page updated')
+			document.getElementById('previewPage').src=document.getElementById('previewPage').src
+
 		}).catch((err) => {
 			console.log(err)
 			commit('Toast/_addError', 'Failed to save page')
 		})
 	},
 	loadPage ({ commit, dispatch }, pageId) {
-		dispatch('callApi', { method: 'GET', ingoreBaseUrl: true, url: this._vm.CMS_BASE_URL + '/cms/pages/' + pageId }).then((resp) => {
+		dispatch('callApi', { 
+			method: 'GET', 
+			ingoreBaseUrl: true, 
+			url: this._vm.CMS_BASE_URL + '/cms/pages/' + pageId 
+		}).then((resp) => {
 			commit('LOAD_PAGE', resp.data)
 		}).catch((err) => {
 			console.log(err)
@@ -103,7 +131,11 @@ const actions = {
 		})
 	},
 	fetchPages ({ commit, dispatch, getters }) {
-		dispatch('callApi', { method: 'GET', ingoreBaseUrl: true, url: this._vm.CMS_BASE_URL + '/cms/pages' }).then((resp) => {
+		dispatch('callApi', { 
+			method: 'GET', 
+			ingoreBaseUrl: true, 
+			url: this._vm.CMS_BASE_URL + '/cms/pages' 
+		}).then((resp) => {
 			commit('LOAD_PAGES', resp.data._embedded.pages)
 		}).catch((err) => {
 			console.log(err)
@@ -122,6 +154,7 @@ const getters = {
 }
 
 export default {
+	// namespaced: true,s
 	state,
 	mutations,
 	actions,

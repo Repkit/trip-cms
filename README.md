@@ -1,5 +1,11 @@
 # cms
 
+module.exports = {
+devServer: {
+disableHostCheck: true
+}
+}
+
 ## Project setup
 ```
 npm install
