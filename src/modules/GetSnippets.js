@@ -2,7 +2,27 @@ import axios from 'axios'
 import router from '../router'
 
 const state = {
-	data: {},
+	snippet: {
+		  "Id": "",
+		  "Name": "",
+		  "Template": "",
+		  "DataUrl": null,
+		  "Status": "1",
+		  "PreScript": null,
+		  "PostScript": "",
+		  "Params": null,
+		  "Details": null,
+		  "Category": null,
+		  "Static": "1",
+		  "Timestamp": "",
+		  "_links": {
+		    "self": {
+		      "href": ""
+		    }
+		  },
+		  "Placeholder": "",
+		  "Preview": ""
+	},
 	widgets: [],
 	snippets: [],
 	datasource: [],
@@ -13,10 +33,10 @@ const state = {
 
 const mutations = {
 	LOAD_SNIPPET (state, data) {
-		state.data = data
+		state.snippet = data
 	},
 	UPDATE_SNIPPET (state, payload) {
-		state.data.Template = payload
+		state.snippet.Template = payload
 	},
 	LOAD_SNIPPETS (state, snippets) {
 		state.snippets = snippets
@@ -28,10 +48,31 @@ const mutations = {
 		state.datasource = datasource
 	},
 	load_dataresponce (state, dataresponse) {
+		debugger
 		state.dataresponse = dataresponse
 	},
 	clearSnippetState (state) {
-		state.data = {}
+		state.snippet = {
+		  "Id": "",
+		  "Name": "",
+		  "Template": "",
+		  "DataUrl": null,
+		  "Status": "1",
+		  "PreScript": null,
+		  "PostScript": "",
+		  "Params": null,
+		  "Details": null,
+		  "Category": null,
+		  "Static": "1",
+		  "Timestamp": "",
+		  "_links": {
+		    "self": {
+		      "href": ""
+		    }
+		  },
+		  "Placeholder": "",
+		  "Preview": ""
+		}
 		state.dataresponse = ''
 	},
 	LOAD_DATA_SOURCE_PARAMS (state, datasourceparams) {
@@ -55,7 +96,7 @@ const actions = {
 			withCredentials: true,
 			data: {
 				action: 'getContent',
-				item: '/cms/' + payload + '_postScript.js'
+				item: '/' + this._vm.USER + '/' + this._vm.PROJECT + '/published/js/' + payload + '_postScript.js'
 			}
 		}).then((res) => {
 			commit('POSTSCRIPT_CONTENT', res.data.result)
@@ -74,7 +115,7 @@ const actions = {
 			data: {
 				action: 'create',
 				content: payload.PostScriptContent,
-				item: '/cms/' + payload.Name + '_postScript.js'
+				item: '/' + this._vm.USER + '/' + this._vm.PROJECT + '/published/js/' + payload.Name + '_postScript.js'
 			}
 		}).then((res) => {
 
@@ -93,7 +134,7 @@ const actions = {
 			data: {
 				action: 'edit',
 				content: payload.PostScriptContent,
-				item: '/cms/' + payload.Name + '_postScript.js'
+				item: '/' + this._vm.USER + '/' + this._vm.PROJECT + '/published/js/' + payload.Name + '_postScript.js'
 			}
 		}).then((res) => {
 
@@ -103,53 +144,64 @@ const actions = {
 		this._vm.$http.defaults.headers['Authorization'] = getters.getToken
 	},
 	callExternalApi ({ commit, dispatch, getters }, payload) {
-		dispatch('callApi', {
-			method: 'GET',
-			url: payload,
-			withoutHash: true
-		}).then((res) => {
-		}).catch((err) => {
-			console.log(err)
-		})
-	},
-	queryDataSourceParams ({ commit, dispatch, getters }, payload) {
-		dispatch('callApi', { method: 'GET', url: '/widget-builder/data-sources/' + payload[0].Id })
-			.then((res) => {
-				let s = res.data.Url
-				let pattern = /(:[A-Za-z_]+)/g
-				let values = payload[1]
-				s = s.replace(pattern, '*')
-				s = s.split('*')
-				let output = ''
-				s.forEach(function (part) {
-					if (part === '') return
-					output += part
-					let param = values.pop()
-					if (param) output += param
-				})
-				delete this._vm.$http.defaults.headers['Authorization']
-				delete this._vm.$http.defaults.headers['x-hash']
-				axios({
-					method: res.data.Method,
-					url: output,
-					withCredentials: true
-				}).then((res) => {
-					commit('load_dataresponce', JSON.stringify(res.data._embedded, null, '   '))
-				}).catch((err) => {
-					console.log(err)
-				})
-				this._vm.$http.defaults.headers['Authorization'] = getters.getToken
-			})
-			.catch((err) => {
+		debugger
+		axios({
+				method: 'GET',
+				url: payload,
+				// withCredentials: true
+			}).then((res) => {
+				debugger
+				commit('load_dataresponce', JSON.stringify(res.data, null, '   '))
+			}).catch((err) => {
 				console.log(err)
 			})
 	},
+	queryDataSourceParams ({ commit, dispatch, getters }, payload) {
+		dispatch('callApi', { 
+			method: 'GET', 
+			url: '/widget-builder/data-sources/' + payload[0].Id 
+		}).then((res) => {
+			let s = res.data.Url
+			let pattern = /(:[A-Za-z_]+)/g
+			let values = payload[1]
+			s = s.replace(pattern, '*')
+			s = s.split('*')
+			let output = ''
+			s.forEach(function (part) {
+				if (part === '') return
+				output += part
+				let param = values.pop()
+				if (param) output += param
+			})
+			delete this._vm.$http.defaults.headers['Authorization']
+			delete this._vm.$http.defaults.headers['x-hash']
+			axios({
+				method: res.data.Method,
+				url: output,
+				withCredentials: true
+			}).then((res) => {
+				commit('load_dataresponce', JSON.stringify(res.data._embedded, null, '   '))
+			}).catch((err) => {
+				console.log(err)
+			})
+			this._vm.$http.defaults.headers['Authorization'] = getters.getToken
+		})
+		.catch((err) => {
+			console.log(err)
+		})
+	},
 	requestData ({ commit, dispatch, getters }, payload) {
-		dispatch('callApi', { method: 'GET', url: '/widget-builder/data-sources/' + payload + '/data-source-params' }).then((resp) => {
+		dispatch('callApi', { 
+			method: 'GET', 
+			url: '/widget-builder/data-sources/' + payload + '/data-source-params' 
+		}).then((resp) => {
 			if (resp.data._embedded.widget_data_source_params.length > 0) {
 				commit('LOAD_DATA_SOURCE_PARAMS', resp.data._embedded.widget_data_source_params)
 			} else {
-				dispatch('callApi', { method: 'GET', url: '/widget-builder/data-sources/' + payload }).then((res) => {
+				dispatch('callApi', { 
+					method: 'GET', 
+					url: '/widget-builder/data-sources/' + payload 
+				}).then((res) => {
 					delete this._vm.$http.defaults.headers['Authorization']
 					delete this._vm.$http.defaults.headers['x-hash']
 					axios({
@@ -172,7 +224,8 @@ const actions = {
 		})
 	},
 	deleteSnippet ({ commit, dispatch }, payload) {
-		dispatch('callApi', { method: 'DELETE',
+		dispatch('callApi', { 
+			method: 'DELETE',
 			ingoreBaseUrl: true,
 			url: this._vm.CMS_BASE_URL + '/cms/snippets/' + payload
 		}).then((resp) => {
@@ -184,7 +237,8 @@ const actions = {
 		})
 	},
 	saveSnippet ({ commit, dispatch, getters }, payload) {
-		dispatch('callApi', { method: 'PATCH',
+		dispatch('callApi', { 
+			method: 'PATCH',
 			ingoreBaseUrl: true,
 			url: this._vm.CMS_BASE_URL + '/cms/snippets/' + payload.Id,
 			data: {
@@ -211,7 +265,8 @@ const actions = {
 		commit('UPDATE_SNIPPET', payload)
 	},
 	createSnippet ({ commit, dispatch, getters }, payload) {
-		dispatch('callApi', { method: 'POST',
+		dispatch('callApi', { 
+			method: 'POST',
 			ingoreBaseUrl: true,
 			url: this._vm.CMS_BASE_URL + '/cms/snippets',
 			data: {
@@ -223,7 +278,7 @@ const actions = {
 				Status: '1',
 				Static: '1',
 				PreScript: payload.PreScript,
-				PostScript: this._vm.UPLOAD_PATH + payload.Name + '_postScript.js',
+				PostScript: this._vm.PROJECT_BASE_URL + '/published/js/' + payload.Name + '_postScript.js',
 				Params: payload.Params
 			} }).then((resp) => {
 			dispatch('createPostScript', payload)
@@ -235,7 +290,8 @@ const actions = {
 		})
 	},
 	toggleSnippetStatus ({ commit, dispatch }, payload) {
-		dispatch('callApi', { method: 'PATCH',
+		dispatch('callApi', { 
+			method: 'PATCH',
 			ingoreBaseUrl: true,
 			url: this._vm.CMS_BASE_URL + '/cms/snippets/' + payload.Id,
 			data: {
@@ -247,7 +303,11 @@ const actions = {
 		})
 	},
 	loadSnippet ({ commit, dispatch }, snippetid) {
-		dispatch('callApi', { method: 'GET', ingoreBaseUrl: true, url: this._vm.CMS_BASE_URL + '/cms/snippets/' + snippetid }).then((resp) => {
+		dispatch('callApi', { 
+			method: 'GET', 
+			ingoreBaseUrl: true, 
+			url: this._vm.CMS_BASE_URL + '/cms/snippets/' + snippetid 
+		}).then((resp) => {
 			commit('LOAD_SNIPPET', resp.data)
 			dispatch('getPostScript', resp.data.Name)
 		}).catch((err) => {
@@ -294,7 +354,7 @@ const getters = {
 		return state.snippets
 	},
 	getSnippet: (state) => {
-		return state.data
+		return state.snippet
 	},
 	getWidgets: (state) => {
 		return state.widgets

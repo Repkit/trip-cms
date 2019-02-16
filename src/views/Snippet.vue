@@ -48,10 +48,10 @@
 							</div>
 						</div>
 						<div class="input-holder">
-							<label>Dynamic snippet</label>
+							<label>Static snippet</label>
 							<div class="togglecheckbox" style="justify-content: flex-start">
-								<span id="dyamic" :class="['toggle-icon', isDynamic ? 'checked' : '']" @click="toggleDynamic"></span>
-								<label class="label-text" for="dyamic" @click="toggleDynamic">Dyanamic</label>
+								<span id="staticSnippet" class="toggle-icon" :class="{'checked': isStatic}" @click="toggleStatic"></span>
+								<label class="label-text" for="staticSnippet" @click="toggleStatic">Static snippet</label>
 							</div>
 						</div>	
 						<div class="input-holder">
@@ -197,7 +197,7 @@ export default {
 				{Id: 1, Name: 'Add an external data source type'}
 			],
 			// old
-			isDynamic: false,
+			isStatic: false,
 			isActiveDataModal: false,
 			wichDataType: 0,
 			selectedSnippet: '',
@@ -222,27 +222,21 @@ export default {
 			]
 		}
 	},
-	watch: {
-		'snippet.Status' : function(val) {
-			if (val === '1') {
-				this.isDynamic = true;
-			}
-		},
-	},
 	methods: {
 		customApi() {
+			debugger
 			this.$store.dispatch('callExternalApi', this.externalApi);
 		},
 		generatedatasource() {
 			this.querydatasrouceparams;
-			this.$store.dispatch('queryDataSourceParams', [this.selectedData ,this.querydatasrouceparams])
+			this.$store.dispatch('queryDataSourceParams', [this.selectedData ,this.querydatasrouceparams]);
 		},
-		toggleDynamic() {
-			this.isDynamic = !this.isDynamic;
-			if (this.isDynamic) {
-				this.snippet.Status = 1;
+		toggleStatic() {
+			this.isStatic = !this.isStatic;
+			if (this.isStatic) {
+				this.snippet.Static = '1';
 			} else {
-				this.snippet.Status = 0;
+				this.snippet.Static = '0';
 			}
 		},
 		datatypeselect(e) {
@@ -276,7 +270,7 @@ export default {
 
 		},
 		hndFileSelect (path) {
-			this.depend = this.$UPLOAD_PATH + path
+			this.depend = this.$PROJECT_BASE_URL + '/published/' + path
 		},
 		closeFileModal () {
 			this.$store.commit('CLOSE_FILEMENU')
@@ -333,6 +327,7 @@ export default {
 		this.full_width = mainWidth - 1
 		this.full_height = mainHeight - 47
 		this.split_height = mainHeight / 2
+		this.isStatic = this.snippet.Static
 
 		this.postopmodal = this.$refs.datatypesSelect.offsetTop - 14
 		this.posleftmodal = (this.$refs.datatypesSelect.offsetLeft + this.$refs.datatypesSelect.offsetWidth) + 15;

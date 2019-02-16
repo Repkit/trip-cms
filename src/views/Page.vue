@@ -36,15 +36,15 @@
 						<div class="input-holder">
 							<label>Full Page</label>
 							<div class="togglecheckbox" style="justify-content: flex-start">
-								<span id="dyamic" class="toggle-icon" :class="{'checked': isFullPage}" @click="toggleFullPage"></span>
-								<label class="label-text" for="dyamic" @click="toggleFullPage">Full Page</label>
+								<span id="fullPage" class="toggle-icon" :class="{'checked': isFullPage}" @click="toggleFullPage"></span>
+								<label class="label-text" for="fullPage" @click="toggleFullPage">Full Page</label>
 							</div>
 						</div>
 						<div class="input-holder">
 							<label>Static Page</label>
 							<div class="togglecheckbox" style="justify-content: flex-start">
-								<span id="dyamic" class="toggle-icon" :class="{'checked': isStaticPage}" @click="toggleStatic"></span>
-								<label class="label-text" for="dyamic" @click="toggleStatic">Static Page</label>
+								<span id="staticPage" class="toggle-icon" :class="{'checked': isStaticPage}" @click="toggleStatic"></span>
+								<label class="label-text" for="staticPage" @click="toggleStatic">Static Page</label>
 							</div>
 						</div>
 					</form>
@@ -150,7 +150,7 @@ export default {
 			this.selectedSnippet = ''
 		},
 		hndFileSelect (path) {
-			this.depend = this.$UPLOAD_PATH + path
+			this.depend = this.$PROJECT_BASE_URL + '/published/' + path
 		},
 		openFileBrowser () {
 			this.$store.commit('OPEN_FILEMENU', this)
@@ -187,16 +187,6 @@ export default {
 		},
 		stophandle () {
 			this.mousemove = false
-		}
-	},
-	watch: {
-		'page': function (val) {
-
-		},
-		'page.FullPage' : function(val) {
-			if (val === '1') {
-				this.isFullPage = true;
-			}
 		}
 	},
 	mounted () {

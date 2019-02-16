@@ -1,11 +1,5 @@
 const state = {
-	/* AUTH_URL: window.AUTH_URL || 'http://192.168.0.30/dynapack-authentication/hash.php',
-	BASE_URL: window.BASE_URL || 'http://192.168.0.30/dynapack/clients/bitusi/public/index.php',
-	API_BASE_URL: window.API_BASE_URL || 'http://192.168.0.30/dynapack/clients/bitusi/public/api.php',
-	CMS_BASE_URL: window.CMS_BASE_URL || '',
-	FILE_MANAGER: 'http://192.168.0.30/dynapack/clients/bitusi/public/admin/bridges/php-local/index.php',
-	UPLOAD_PATH: 'http://192.168.0.30/dynapack/clients/bitusi/public/uploads/cms/',
-	PROJECT_BASE_URL: window.PROJECT_BASE_URL */
+	
 }
 
 const mutations = {}
