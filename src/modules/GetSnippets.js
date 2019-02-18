@@ -3,25 +3,25 @@ import router from '../router'
 
 const state = {
 	snippet: {
-		  "Id": "",
-		  "Name": "",
-		  "Template": "",
-		  "DataUrl": null,
-		  "Status": "1",
-		  "PreScript": null,
-		  "PostScript": "",
-		  "Params": null,
-		  "Details": null,
-		  "Category": null,
-		  "Static": "1",
-		  "Timestamp": "",
-		  "_links": {
-		    "self": {
-		      "href": ""
-		    }
-		  },
-		  "Placeholder": "",
-		  "Preview": ""
+		Id: '',
+		Name: '',
+		Template: '',
+		DataUrl: null,
+		Status: '1',
+		PreScript: null,
+		PostScript: '',
+		Params: null,
+		Details: null,
+		Category: null,
+		Static: '1',
+		Timestamp: '',
+		_links: {
+			self: {
+				href: ''
+			}
+		},
+		Placeholder: '',
+		Preview: ''
 	},
 	widgets: [],
 	snippets: [],
@@ -52,25 +52,25 @@ const mutations = {
 	},
 	clearSnippetState (state) {
 		state.snippet = {
-		  "Id": "",
-		  "Name": "",
-		  "Template": "",
-		  "DataUrl": null,
-		  "Status": "1",
-		  "PreScript": null,
-		  "PostScript": "",
-		  "Params": null,
-		  "Details": null,
-		  "Category": null,
-		  "Static": "1",
-		  "Timestamp": "",
-		  "_links": {
-		    "self": {
-		      "href": ""
-		    }
-		  },
-		  "Placeholder": "",
-		  "Preview": ""
+			Id: '',
+			Name: '',
+			Template: '',
+			DataUrl: null,
+			Status: '1',
+			PreScript: null,
+			PostScript: '',
+			Params: null,
+			Details: null,
+			Category: null,
+			Static: '1',
+			Timestamp: '',
+			_links: {
+				self: {
+					href: ''
+				}
+			},
+			Placeholder: '',
+			Preview: ''
 		}
 		state.dataresponse = ''
 	},
@@ -83,6 +83,9 @@ const mutations = {
 }
 
 const actions = {
+	clearSnippetState ({ commit }) {
+		commit('clearSnippetState')
+	},
 	updatePostScript ({ commit }, payload) {
 		commit('POSTSCRIPT_CONTENT', payload)
 	},
@@ -144,19 +147,19 @@ const actions = {
 	},
 	callExternalApi ({ commit, dispatch, getters }, payload) {
 		axios({
-				method: 'GET',
-				url: payload,
-				// withCredentials: true
-			}).then((res) => {
-				commit('load_dataresponce', JSON.stringify(res.data, null, '   '))
-			}).catch((err) => {
-				console.log(err)
-			})
+			method: 'GET',
+			url: payload
+			// withCredentials: true
+		}).then((res) => {
+			commit('load_dataresponce', JSON.stringify(res.data, null, '   '))
+		}).catch((err) => {
+			console.log(err)
+		})
 	},
 	// TODO: refactor without regex
 	queryDataSourceParams ({ commit, dispatch, getters }, payload) {
-		dispatch('callApi', { 
-			method: 'GET', 
+		dispatch('callApi', {
+			method: 'GET',
 			url: '/widget-builder/data-sources/' + payload[0].Id 
 		}).then((res) => {
 			let s = res.data.Url
@@ -189,16 +192,16 @@ const actions = {
 		})
 	},
 	requestData ({ commit, dispatch, getters }, payload) {
-		dispatch('callApi', { 
-			method: 'GET', 
+		dispatch('callApi', {
+			method: 'GET',
 			url: '/widget-builder/data-sources/' + payload + '/data-source-params' 
 		}).then((resp) => {
 			if (resp.data._embedded.widget_data_source_params.length > 0) {
 				commit('LOAD_DATA_SOURCE_PARAMS', resp.data._embedded.widget_data_source_params)
 			} else {
-				dispatch('callApi', { 
-					method: 'GET', 
-					url: '/widget-builder/data-sources/' + payload 
+				dispatch('callApi', {
+					method: 'GET',
+					url: '/widget-builder/data-sources/' + payload
 				}).then((res) => {
 					delete this._vm.$http.defaults.headers['Authorization']
 					delete this._vm.$http.defaults.headers['x-hash']
@@ -301,10 +304,10 @@ const actions = {
 		})
 	},
 	loadSnippet ({ commit, dispatch }, snippetid) {
-		dispatch('callApi', { 
-			method: 'GET', 
-			ingoreBaseUrl: true, 
-			url: this._vm.CMS_BASE_URL + '/cms/snippets/' + snippetid 
+		dispatch('callApi', {
+			method: 'GET',
+			ingoreBaseUrl: true,
+			url: this._vm.CMS_BASE_URL + '/cms/snippets/' + snippetid
 		}).then((resp) => {
 			commit('LOAD_SNIPPET', resp.data)
 			dispatch('getPostScript', resp.data.Name)
@@ -315,10 +318,10 @@ const actions = {
 		})
 	},
 	fetchSnippets ({ commit, dispatch }) {
-		dispatch('callApi', { 
-			method: 'GET', 
-			ingoreBaseUrl: true, 
-			url: this._vm.CMS_BASE_URL + '/cms/snippets' 
+		dispatch('callApi', {
+			method: 'GET',
+			ingoreBaseUrl: true,
+			url: this._vm.CMS_BASE_URL + '/cms/snippets'
 		}).then((resp) => {
 			commit('LOAD_SNIPPETS', resp.data._embedded.snippets)
 		}).catch((err) => {
@@ -327,9 +330,9 @@ const actions = {
 		})
 	},
 	fetchWidgets ({ commit, dispatch }) {
-		dispatch('callApi', { 
-			method: 'GET', 
-			url: '/widget-builder/widgets' 
+		dispatch('callApi', {
+			method: 'GET',
+			url: '/widget-builder/widgets'
 		}).then((resp) => {
 			commit('LOAD_WIDGETS', resp.data._embedded.widget_builder)
 		}).catch((err) => {
@@ -337,9 +340,9 @@ const actions = {
 		})
 	},
 	fetchDataSource ({ commit, dispatch }) {
-		dispatch('callApi', { 
-			method: 'GET', 
-			url: '/widget-builder/data-sources' 
+		dispatch('callApi', {
+			method: 'GET',
+			url: '/widget-builder/data-sources'
 		}).then((resp) => {
 			commit('LOAD_DATASOURCE', resp.data._embedded.widget_data_sources)
 		}).catch((err) => {

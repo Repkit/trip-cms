@@ -4,18 +4,18 @@
 			<div class="panel-container">
 				<template v-if="type === 'page'">
 					<div class="meta-header">
-						<form @submit.prevent="SavePage">
+						<form @submit.prevent="createPage">
 							<button type="submit" class="submit-styled">
 								<font-awesome-icon :icon="['fas', 'rocket']"></font-awesome-icon><p>Publish Page</p>
 							</button>
 							<div class="input-holder">
 								<label for="">Page name *</label>
-								<input type="text" required v-model="pageName" placeholder="Page name">
+								<input type="text" required v-model="page.Name" placeholder="Page name">
 							</div>
 							<div class="input-holder">
 								<label for="">Head snippet</label>
 								<div class="input-group">
-										<select name="" id="" :v-model="pageHead">
+										<select name="" id="" :v-model="page.Head">
 										<option value="" disabled selected hidden>Chose Header Snippet</option>
 										<option value="">No Header</option>
 										<option value="" v-for="(item, i) in headSnippets" :key="i">
@@ -41,6 +41,13 @@
 									<label class="label-text" for="staticPage" @click="toggleStaticPage">Static Page</label>
 								</div>
 							</div>
+							<div class="input-holder">
+								<label>Full Page</label>
+								<div class="togglecheckbox" style="justify-content: flex-start">
+									<span id="fullPage" class="toggle-icon" :class="{'checked': isFullPage}" @click="toggleFullPage"></span>
+									<label class="label-text" for="fullPage" @click="toggleFullPage">Full Page</label>
+								</div>
+							</div>
 						</form>
 					</div>
 					<div class="main-panel" ref="mainpanel">
@@ -49,7 +56,7 @@
 							:type="'half'"
 							:sec_width="full_width"
 							:sec_height="full_height"
-							:value="pageContent"
+							:value="page.Content"
 							:lang="'html'"
 							@onChangeListener="onChangeHTMLPage"
 							:insertString="insertString"></Section>
@@ -67,7 +74,7 @@
 										:type="'full'"
 										:sec_width="full_width"
 										:sec_height="full_height - 47"
-										:value="pageContent"
+										:value="page.Content"
 										:lang="'html'"
 										@onChangeListener="onChangeHTMLPage"
 										:insertString="insertString"></Section>
@@ -82,17 +89,17 @@
 				</template>
 				<template v-else>
 					<div class="meta-header">
-						<form @submit.prevent="saveSnippet">
+						<form @submit.prevent="createSnippet">
 							<button type="submit" class="submit-styled">
 								<font-awesome-icon :icon="['fas', 'rocket']"></font-awesome-icon><p>Compile Code</p>
 							</button>
 							<div class="input-holder">
 								<label for="">Snippet name *</label>
-								<input type="text" required v-model="snippetName" placeholder="Snippet name">
+								<input type="text" required v-model="snippet.Name" placeholder="Snippet name">
 							</div>
 							<div class="input-holder">
 								<label for="">Category *</label>
-								<input type="text" required v-model="snippetCategory" placeholder="Snippet category">
+								<input type="text" required v-model="snippet.Category" placeholder="Snippet category">
 							</div>
 							<div class="input-holder">
 								<label for="">Insert subsnippet</label>
@@ -126,7 +133,7 @@
 							</div>
 							<div class="input-holder">
 								<label>Prescript</label>
-								<input type="text" v-model="snippetPreScript">
+								<input type="text" v-model="snippet.PreScript">
 							</div>
 						</form>
 					</div>
@@ -136,7 +143,7 @@
 							:type="'half'"
 							:sec_width="left_sec_width"
 							:sec_height="full_height"
-							:value="snippetTemplate"
+							:value="snippet.Template"
 							:lang="'html'"
 							@onChangeListener="onChangeHTMLSnippet"
 							:insertString="insertString"></Section>
@@ -146,7 +153,7 @@
 								:sec_width="right_sec_width"
 								:sec_height="sec_height"
 								:botval="dataResponse"
-								:topval="snippetPostScript"
+								:topval="snippet.PostScript"
 								@onChangeListener="onChangeJavascript"
 								:toplang="'javascript'"
 								:botlang="'json'">
@@ -163,7 +170,7 @@
 										:type="'full'"
 										:sec_width="full_width"
 										:sec_height="full_height - 47"
-										:value="snippetTemplate"
+										:value="snippet.Template"
 										:lang="'html'"
 										@onChangeListener="onChangeHTMLSnippet"
 										:insertString="insertString"></Section>
@@ -173,7 +180,7 @@
 										:type="'full'"
 										:sec_width="full_width"
 										:sec_height="full_height - 47"
-										:value="snippetPostScript"
+										:value="snippet.PostScript"
 										:lang="'javascript'"
 										@onChangeListener="onChangeJavascript"></Section>
 									</div>
@@ -253,11 +260,7 @@ export default {
 			// page vars
 			isFullPage: false,
 			isStaticPage: false,
-			pageContent: '',
-			pageName: '',
-			pageHead: '',
-			pageFullPage: '',
-			
+
 			// snippet vars
 			externalApi: '',
 			querydatasrouceparams: [],
@@ -269,13 +272,6 @@ export default {
 			// is static snippet
 			isStaticSnippet: false,
 			isActiveDataModal: false,
-			snippetName: '',
-			snippetCategory: '',
-			snippetTemplate: '',
-			snippetPostScript: '',
-			snippetDataType: '',
-			snippetPreScript: '',
-			snippetStatus: '',
 			selectedData: '',
 			// new
 			left_sec_width: 0,
@@ -348,6 +344,7 @@ export default {
 			} else {
 				this.page.StaticPage = '0';
 			}
+			debugger;
 		},
 		toggleStaticSnippet() {
 			this.isStaticSnippet = !this.isStaticSnippet;
@@ -361,26 +358,28 @@ export default {
 			console.log(this.selectedSnippet)
 			return this.selectedSnippet
 		},
-		SavePage () {
+		createPage () {
 			this.page = {
-				Name: this.pageName,
-				Content: this.pageContent,
-				Head: this.pageHead,
+				Name: this.page.Name,
+				Content: this.page.Content,
+				Head: this.page.Head,
 				FullPage: this.isFullPage,
-				StaticPage: this.isStaticPage
+				StaticPage: this.isStaticPage,
+				Status: '1'
 			}
+			debugger
 			this.$store.dispatch('createPage', this.page)
 		},
-		saveSnippet () {
+		createSnippet () {
 			this.snippet = {
-				Name: this.snippetName,
-				Category: this.snippetCategory,
-				Template: this.snippetTemplate,
-				PreScript: this.snippetPreScript,
-				PostScript: this.snippetName,
-				DataUrl: this.snippetDataType,
-				Status: this.snippetStatus,
-				PostScriptContent: this.snippetPostScript
+				Name: this.snippet.Name,
+				Category: this.snippet.Category,
+				Template: this.snippet.Template,
+				PreScript: this.snippet.PreScript,
+				PostScript: this.snippet.Name,
+				DataUrl: this.snippet.DataUrl,
+				Status: this.snippet.Status,
+				PostScriptContent: this.snippet.PostScript
 			}
 			this.$store.dispatch('createSnippet', this.snippet)
 		},
@@ -394,11 +393,11 @@ export default {
 			return this.insertString = this.selectedSnippet
 		},
 		onChangeHTMLPage (val) {
-			this.pageContent = val
+			this.page.Content = val
 			this.selectedSnippet = ''
 		},
 		onChangeHTMLSnippet (val) {
-			this.snippetTemplate = val
+			this.snippet.Template = val
 			this.selectedSnippet = ''
 		},
 		onChangeJavascript (val) {
@@ -442,8 +441,16 @@ export default {
 	},
 	beforeMount () {
 		this.type = this.$route.params.type
+		this.$store.dispatch('clearPageState');
+		this.$store.dispatch('clearSnippetState');
 	},
 	computed: {
+		snippet() {
+			return this.$store.getters.getSnippets
+		},
+		page() {
+			return this.$store.getters.getPage
+		},
 		settings () {
 			return this.$store.getters.getMode
 		},

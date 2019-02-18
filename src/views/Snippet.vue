@@ -39,6 +39,13 @@
 						</div>
 						<div class="input-holder">
 							<label for="">Data source type predefined</label>
+							<transition name="fade" mode="out-in">
+								<div v-if="snippet.DataUrl"
+								class="small_card">
+									<p>{{snippet.DataUrl}}</p>
+									<font-awesome-icon @click="clearDataUrl" :icon="['fas', 'times']" />
+								</div>
+							</transition>
 							<div class="input-group">
 								<select name="" @change="datatypeselect($event)" id="" v-model="datatype" ref="datatypesSelect">
 									<option value="" disabled selected hidden>Please Choose Datasource</option>
@@ -51,7 +58,7 @@
 						<div class="input-holder">
 							<label>Static snippet</label>
 							<div class="togglecheckbox" style="justify-content: flex-start">
-								<span id="staticSnippet" class="toggle-icon" :class="{'checked': isStaticSnippet}" @click="toggleStaticSnippet"></span>
+								<span id="staticSnippet" class="toggle-icon" :class="snippet.Static == 1 ? 'checked': ''" @click="toggleStaticSnippet"></span>
 								<label class="label-text" for="staticSnippet" @click="toggleStaticSnippet">Static snippet</label>
 							</div>
 						</div>	
@@ -225,6 +232,10 @@ export default {
 		}
 	},
 	methods: {
+		clearDataUrl() {
+			this.snippet.DataUrl = '';
+			this.externalApi = '';
+		},
 		customApi() {
 			this.$store.dispatch('callExternalApi', this.externalApi);
 			this.snippet.DataUrl = this.externalApi

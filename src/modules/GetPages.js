@@ -2,25 +2,25 @@ import router from '../router'
 
 const state = {
 	page: {
-	  "Id": "",
-	  "Name": "",
-	  "Content": "",
-	  "Head": "",
-	  "StaticPage": "",
-	  "Crawlable": "",
-	  "Category": "",
-	  "Details": "",
-	  "FullPage": "",
-	  "Status": "",
-	  "Timestamp": "",
-	  "_links": {
-	    "self": {
-	      "href": ""
-	    },
-	    "page-url": {
-	      "href": ""
-	    }
-	  }
+		Id: '',
+		Name: '',
+		Content: '',
+		Head: '',
+		StaticPage: '',
+		Crawlable: '',
+		Category: '',
+		Details: '',
+		FullPage: '',
+		Status: '',
+		Timestamp: '',
+		_links: {
+			self: {
+				href: ''
+			},
+			'page-url': {
+				href: ''
+			}
+		}
 	},
 	pages: []
 }
@@ -31,10 +31,36 @@ const mutations = {
 	},
 	'LOAD_PAGES' (state, pages) {
 		state.pages = pages
+	},
+	clearPageState (state) {
+		state.page = {
+			Id: '',
+			Name: '',
+			Content: '',
+			Head: '',
+			StaticPage: '0',
+			Crawlable: '1',
+			Category: '',
+			Details: '',
+			FullPage: '0',
+			Status: '1',
+			Timestamp: '',
+			_links: {
+				self: {
+					href: ''
+				},
+				'page-url': {
+					href: ''
+				}
+			}
+		}
 	}
 }
 
 const actions = {
+	clearPageState ({ commit }) {
+		commit('clearPageState')
+	},
 	searchPages ({ commit, dispatch }, payload) {
 		dispatch('callApi', {
 			method: 'GET',
@@ -78,10 +104,10 @@ const actions = {
 				Name: payload.Name,
 				Content: payload.Content,
 				Crawlable: 1,
-				Status: 1,
-				StaticPage: 1,
+				Status: payload.Status,
+				StaticPage: payload.StaticPage,
 				Head: payload.Head,
-				FullPage: '0'
+				FullPage: payload.FullPage
 			} }).then((resp) => {
 			router.push({ name: 'page', params: { id: resp.data.Id } })
 			commit('Toast/_add', 'Page created')
@@ -106,23 +132,23 @@ const actions = {
 				Name: payload.Name,
 				StaticPage: payload.StaticPage,
 				Status: payload.Status
-			} 
+			}
 		}).then((resp) => {
 			commit('LOAD_PAGE', resp.data)
 			router.push({ name: 'page', params: { id: resp.data.Id } })
 			commit('Toast/_add', 'Page updated')
-			document.getElementById('previewPage').src=document.getElementById('previewPage').src
-
+			debugger
+			document.getElementById('previewPage').src = document.getElementById('previewPage').src
 		}).catch((err) => {
 			console.log(err)
 			commit('Toast/_addError', 'Failed to save page')
 		})
 	},
 	loadPage ({ commit, dispatch }, pageId) {
-		dispatch('callApi', { 
-			method: 'GET', 
-			ingoreBaseUrl: true, 
-			url: this._vm.CMS_BASE_URL + '/cms/pages/' + pageId 
+		dispatch('callApi', {
+			method: 'GET',
+			ingoreBaseUrl: true,
+			url: this._vm.CMS_BASE_URL + '/cms/pages/' + pageId
 		}).then((resp) => {
 			commit('LOAD_PAGE', resp.data)
 		}).catch((err) => {
@@ -131,10 +157,10 @@ const actions = {
 		})
 	},
 	fetchPages ({ commit, dispatch, getters }) {
-		dispatch('callApi', { 
-			method: 'GET', 
-			ingoreBaseUrl: true, 
-			url: this._vm.CMS_BASE_URL + '/cms/pages' 
+		dispatch('callApi', {
+			method: 'GET',
+			ingoreBaseUrl: true,
+			url: this._vm.CMS_BASE_URL + '/cms/pages'
 		}).then((resp) => {
 			commit('LOAD_PAGES', resp.data._embedded.pages)
 		}).catch((err) => {

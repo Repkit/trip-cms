@@ -34,16 +34,16 @@
 							</div>
 						</div>
 						<div class="input-holder">
-							<label>Full Page</label>
+							<label>Full Page {{page.FullPage}}</label>
 							<div class="togglecheckbox" style="justify-content: flex-start">
-								<span id="fullPage" class="toggle-icon" :class="{'checked': isFullPage}" @click="toggleFullPage"></span>
+								<span id="fullPage" class="toggle-icon" :class="page.FullPage == 1 ? 'checked': ''" @click="toggleFullPage"></span>
 								<label class="label-text" for="fullPage" @click="toggleFullPage">Full Page</label>
 							</div>
 						</div>
 						<div class="input-holder">
-							<label>Static Page</label>
+							<label>Static Page {{page.StaticPage}}</label>
 							<div class="togglecheckbox" style="justify-content: flex-start">
-								<span id="staticPage" class="toggle-icon" :class="{'checked': isStaticPage}" @click="toggleStaticPage"></span>
+								<span id="staticPage" class="toggle-icon" :class="page.StaticPage == 1 ? 'checked': ''" @click="toggleStaticPage"></span>
 								<label class="label-text" for="staticPage" @click="toggleStaticPage">Static Page</label>
 							</div>
 						</div>
@@ -127,19 +127,17 @@ export default {
 	},
 	methods: {
 		toggleFullPage() {
-			this.isFullPage = !this.isFullPage;
-			if (this.isFullPage) {
-				this.page.FullPage = '1';
-			} else {
+			if (this.page.FullPage == '1') {
 				this.page.FullPage = '0';
+			} else {
+				this.page.FullPage = '1';
 			}
 		},
 		toggleStaticPage() {
-			this.isStaticPage = !this.isStaticPage;
-			if (this.isStaticPage) {
-				this.page.StaticPage = '1';
-			} else {
+			if (this.page.StaticPage == '1') {
 				this.page.StaticPage = '0';
+			} else {
+				this.page.StaticPage = '1';
 			}
 		},
 		insertSnippet () {
@@ -197,8 +195,9 @@ export default {
 		this.sec_height = (mainHeight)
 		this.full_width = mainWidth - 1
 		this.full_height = mainHeight - 47
-		this.isStaticPage = this.page.StaticPage
-		this.isFullPage = this.page.FullPage
+		/* this.isStaticPage = this.page.StaticPage
+		debugger */
+		//this.isFullPage = this.page.FullPage
 	},
 	computed: {
 		settings () {

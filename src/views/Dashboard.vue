@@ -802,4 +802,30 @@ table {
 		outline: none;
 	}
 }
+.small_card {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 6px 7px;
+	border-radius: 4px;
+	background: #64B448;
+	margin: 0 0 14px 0; 
+
+	p {
+		margin: 0;
+		padding: 0;
+		width: 90%;
+		word-break: break-all;
+		// overflow: hidden;
+	}
+
+	svg {
+		color: #FBFBFB;
+		font-size: 12px;
+		
+		&:hover {
+			cursor: pointer;
+		}
+	}
+}
 </style>
