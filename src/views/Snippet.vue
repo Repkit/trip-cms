@@ -15,10 +15,10 @@
 					<form @submit.prevent="compileSnippet">
 						
 						<button type="submit" class="submit-styled">
-							<font-awesome-icon :icon="['fas', 'rocket']"></font-awesome-icon><p>Compile Code</p>
+							<font-awesome-icon :icon="['fas', 'rocket']"></font-awesome-icon><p>Compile snippet</p>
 						</button>
 						<div class="input-holder">
-							<label for="">Snippet name *</label>
+							<label for="">Name *</label>
 							<input type="text" required v-model="snippet.Name" placeholder="Snippet name">
 						</div>
 						<div class="input-holder">
@@ -29,7 +29,7 @@
 							<label for="">Insert subsnippet</label>
 							<div class="input-group">
 								<select name="" id="" v-model="selectedSnippet">
-									<option value="" disabled selected hidden>Select a Snippet</option>
+									<option value="" disabled selected hidden>Select a snippet</option>
 									<option v-for="(item, i) in snippets" :key="i" :value="item.Placeholder">
 										{{item.Name}}
 									</option>
@@ -48,7 +48,7 @@
 							</transition>
 							<div class="input-group">
 								<select name="" @change="datatypeselect($event)" id="" v-model="datatype" ref="datatypesSelect">
-									<option value="" disabled selected hidden>Please Choose Datasource</option>
+									<option value="" disabled selected hidden>Please choose data source</option>
 									<option  v-for="(item, i) in datatypes" :key="i" :value="item.Id">
 										{{item.Name}}
 									</option>
@@ -56,7 +56,6 @@
 							</div>
 						</div>
 						<div class="input-holder">
-							<label>Static snippet</label>
 							<div class="togglecheckbox" style="justify-content: flex-start">
 								<span id="staticSnippet" class="toggle-icon" :class="snippet.Static == 1 ? 'checked': ''" @click="toggleStaticSnippet"></span>
 								<label class="label-text" for="staticSnippet" @click="toggleStaticSnippet">Static snippet</label>
@@ -206,7 +205,7 @@ export default {
 				{Id: 1, Name: 'Add an external data source type'}
 			],
 			// old
-			isStaticSnippet: false,
+			// isStaticSnippet: false,
 			isActiveDataModal: false,
 			wichDataType: 0,
 			selectedSnippet: '',
@@ -245,11 +244,16 @@ export default {
 			this.$store.dispatch('queryDataSourceParams', [this.selectedData ,this.querydatasrouceparams]);
 		},
 		toggleStaticSnippet() {
-			this.isStaticSnippet = !this.isStaticSnippet;
+			/*this.isStaticSnippet = !this.isStaticSnippet;
 			if (this.isStaticSnippet) {
 				this.snippet.Static = '1';
 			} else {
 				this.snippet.Static = '0';
+			}*/
+			if (this.snippet.Static == '1') {
+				this.snippet.Static = '0';
+			} else {
+				this.snippet.Static = '1';
 			}
 		},
 		datatypeselect(e) {
@@ -340,7 +344,7 @@ export default {
 		this.full_width = mainWidth - 1
 		this.full_height = mainHeight - 47
 		this.split_height = mainHeight / 2
-		this.isStaticSnippet = this.snippet.Static
+		// this.isStaticSnippet = this.snippet.Static
 
 		this.postopmodal = this.$refs.datatypesSelect.offsetTop - 14
 		this.posleftmodal = (this.$refs.datatypesSelect.offsetLeft + this.$refs.datatypesSelect.offsetWidth) + 15;

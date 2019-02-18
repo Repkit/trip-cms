@@ -377,7 +377,7 @@ table {
 		border:#2D333B solid 1px;
 	}
 
-	& input[type=text] {
+	& input[type=text], textarea {
 		width: calc(100% - 14px);
 		height: 35px;
 		color: #FBFBFB;

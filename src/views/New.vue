@@ -6,18 +6,22 @@
 					<div class="meta-header">
 						<form @submit.prevent="createPage">
 							<button type="submit" class="submit-styled">
-								<font-awesome-icon :icon="['fas', 'rocket']"></font-awesome-icon><p>Publish Page</p>
+								<font-awesome-icon :icon="['fas', 'rocket']"></font-awesome-icon><p>Publish page</p>
 							</button>
 							<div class="input-holder">
-								<label for="">Page name *</label>
+								<label for="">Name *</label>
 								<input type="text" required v-model="page.Name" placeholder="Page name">
+							</div>
+							<div class="input-holder">
+								<label for="">Category </label>
+								<input type="text" v-model="page.Category" placeholder="Page category">
 							</div>
 							<div class="input-holder">
 								<label for="">Head snippet</label>
 								<div class="input-group">
 										<select name="" id="" :v-model="page.Head">
-										<option value="" disabled selected hidden>Chose Header Snippet</option>
-										<option value="">No Header</option>
+										<option value="" disabled selected hidden>Chose header snippet</option>
+										<option value="">No header</option>
 										<option value="" v-for="(item, i) in headSnippets" :key="i">
 											{{item.Name}}
 										</option>
@@ -26,7 +30,7 @@
 								<label for="">Insert subsnippet</label>
 								<div class="input-group">
 										<select name="" id="" v-model="selectedSnippet">
-											<option value="" disabled selected hidden>Chose Snippet</option>
+											<option value="" disabled selected hidden>Chose snippet</option>
 											<option v-for="(item, i) in snippets" :key="i" :value="item.Placeholder">
 												{{item.Name}}
 											</option>
@@ -35,18 +39,26 @@
 								</div>
 							</div>
 							<div class="input-holder">
-								<label>Static Page</label>
 								<div class="togglecheckbox" style="justify-content: flex-start">
-									<span id="staticPage" class="toggle-icon" :class="{'checked': isStaticPage}" @click="toggleStaticPage"></span>
-									<label class="label-text" for="staticPage" @click="toggleStaticPage">Static Page</label>
+									<span id="fullPage" class="toggle-icon" :class="page.FullPage == 1 ? 'checked': ''" @click="toggleFullPage"></span>
+									<label class="label-text" for="fullPage" @click="toggleFullPage">Full page</label>
 								</div>
 							</div>
 							<div class="input-holder">
-								<label>Full Page</label>
 								<div class="togglecheckbox" style="justify-content: flex-start">
-									<span id="fullPage" class="toggle-icon" :class="{'checked': isFullPage}" @click="toggleFullPage"></span>
-									<label class="label-text" for="fullPage" @click="toggleFullPage">Full Page</label>
+									<span id="staticPage" class="toggle-icon" :class="page.StaticPage == 1 ? 'checked': ''" @click="toggleStaticPage"></span>
+									<label class="label-text" for="staticPage" @click="toggleStaticPage">Static page</label>
 								</div>
+							</div>
+							<div class="input-holder">
+								<div class="togglecheckbox" style="justify-content: flex-start">
+									<span id="crawlablePage" class="toggle-icon" :class="page.Crawlable == 1 ? 'checked': ''" @click="toggleCrawlablePage"></span>
+									<label class="label-text" for="crawlablePage" @click="toggleCrawlablePage">Crawlable page</label>
+								</div>
+							</div>
+							<div class="input-holder">
+								<label for="">Details </label>
+								<textarea v-model="page.Details" rows="4" cols="28" style="background-color: #1c2128;"></textarea>
 							</div>
 						</form>
 					</div>
@@ -91,10 +103,10 @@
 					<div class="meta-header">
 						<form @submit.prevent="createSnippet">
 							<button type="submit" class="submit-styled">
-								<font-awesome-icon :icon="['fas', 'rocket']"></font-awesome-icon><p>Compile Code</p>
+								<font-awesome-icon :icon="['fas', 'rocket']"></font-awesome-icon><p>Compile snippet</p>
 							</button>
 							<div class="input-holder">
-								<label for="">Snippet name *</label>
+								<label for="">Name *</label>
 								<input type="text" required v-model="snippet.Name" placeholder="Snippet name">
 							</div>
 							<div class="input-holder">
@@ -105,7 +117,7 @@
 								<label for="">Insert subsnippet</label>
 								<div class="input-group">
 										<select name="" id="" v-model="selectedSnippet">
-											<option value="" disabled selected hidden>Select a Snippet</option>
+											<option value="" disabled selected hidden>Select a snippet</option>
 											<option v-for="(item, i) in snippets" :key="i" :value="item.Placeholder">
 												{{item.Name}}
 											</option>
@@ -117,7 +129,7 @@
 								<label for="">Data source type predefined</label>
 								<div class="input-group">
 										<select name="" @change="datatypeselect($event)" id="" v-model="datatype" ref="datatypesSelect">
-											<option value="" disabled selected hidden>Please Choose Datasource</option>
+											<option value="" disabled selected hidden>Please choose data source</option>
 											<option  v-for="(item, i) in datatypes" :key="i" :value="item.Id">
 												{{item.Name}}
 											</option>
@@ -125,7 +137,6 @@
 								</div>
 							</div>
 							<div class="input-holder">
-								<label>Static snippet</label>
 								<div class="togglecheckbox" style="justify-content: flex-start">
 									<span id="staticSnippet" class="toggle-icon" :class="{'checked': isStaticSnippet}" @click="toggleStaticSnippet"></span>
 									<label class="label-text" for="staticSnippet" @click="toggleStaticSnippet">Static snippet</label>
@@ -202,7 +213,7 @@
 							<div class="modal leftdir" :style="{top: postopmodal + 'px', left: posleftmodal + 'px'}">
 								<div class="modal-form-content">
 								<template v-if="wichDataType === '0'">
-										<label for="">Data Source Url - all widgets defined</label>
+										<label for="">Data source url - all widgets defined</label>
 										<div class="form-section">
 											<select @change="requestData(selectedData)" name="" id="" v-model="selectedData">
 												<option value="" disabled selected hidden>Select data</option>
@@ -257,10 +268,6 @@ export default {
 		return {
 			type: '',
 			
-			// page vars
-			isFullPage: false,
-			isStaticPage: false,
-
 			// snippet vars
 			externalApi: '',
 			querydatasrouceparams: [],
@@ -269,8 +276,6 @@ export default {
 				{Id: 0, Name: 'Choose from widget builder module'},
 				{Id: 1, Name: 'Add an external data source type'}
 			],
-			// is static snippet
-			isStaticSnippet: false,
 			isActiveDataModal: false,
 			selectedData: '',
 			// new
@@ -330,28 +335,31 @@ export default {
 			this.$store.dispatch('queryDatSrouceParams', [this.selectedData ,this.querydatasrouceparams])
 		},
 		toggleFullPage() {
-			this.isFullPage = !this.isFullPage;
-			if (this.isFullPage) {
-				this.page.FullPage = '1';
-			} else {
+			if (this.page.FullPage == '1') {
 				this.page.FullPage = '0';
+			} else {
+				this.page.FullPage = '1';
 			}
 		},
 		toggleStaticPage() {
-			this.isStaticPage = !this.isStaticPage;
-			if (this.isStaticPage) {
-				this.page.StaticPage = '1';
-			} else {
+			if (this.page.StaticPage == '1') {
 				this.page.StaticPage = '0';
+			} else {
+				this.page.StaticPage = '1';
 			}
-			debugger;
+		},
+		toggleCrawlablePage() {
+			if (this.page.Crawlable == '1') {
+				this.page.Crawlable = '0';
+			} else {
+				this.page.Crawlable = '1';
+			}
 		},
 		toggleStaticSnippet() {
-			this.isStaticSnippet = !this.isStaticSnippet;
-			if (this.isStaticSnippet) {
-				this.snippet.Static = '1';
-			} else {
+			if (this.snippet.Static == '1') {
 				this.snippet.Static = '0';
+			} else {
+				this.snippet.Static = '1';
 			}
 		},
 		addSubSnippet (val) {
@@ -359,19 +367,24 @@ export default {
 			return this.selectedSnippet
 		},
 		createPage () {
-			this.page = {
+			// this.page = {
+			var pageData = {
 				Name: this.page.Name,
+				Category: this.page.Category,
 				Content: this.page.Content,
 				Head: this.page.Head,
-				FullPage: this.isFullPage,
-				StaticPage: this.isStaticPage,
+				FullPage: this.page.FullPage,
+				StaticPage: this.page.StaticPage,
+				Crawlable: this.page.Crawlable,
+				Details: this.page.Details,
 				Status: '1'
 			}
-			debugger
-			this.$store.dispatch('createPage', this.page)
+			// this.$store.dispatch('createPage', this.page)
+			this.$store.dispatch('createPage', pageData)
 		},
 		createSnippet () {
-			this.snippet = {
+			// this.snippet = {
+			var snippetData = {
 				Name: this.snippet.Name,
 				Category: this.snippet.Category,
 				Template: this.snippet.Template,
@@ -381,7 +394,8 @@ export default {
 				Status: this.snippet.Status,
 				PostScriptContent: this.snippet.PostScript
 			}
-			this.$store.dispatch('createSnippet', this.snippet)
+			// this.$store.dispatch('createSnippet', this.snippet)
+			this.$store.dispatch('createSnippet', snippetData)
 		},
 		addHeadSnippet () {
 
@@ -435,9 +449,10 @@ export default {
 		this.sec_height = mainHeight
 		this.full_width = mainWidth
 		this.full_height = mainHeight - 36
-
-		this.postopmodal = this.$refs.datatypesSelect.offsetTop - 14
-		this.posleftmodal = (this.$refs.datatypesSelect.offsetLeft + this.$refs.datatypesSelect.offsetWidth) + 15;
+		
+		/* throw error with $refs undefined*/
+		// this.postopmodal = this.$refs.datatypesSelect.offsetTop - 14
+		// this.posleftmodal = (this.$refs.datatypesSelect.offsetLeft + this.$refs.datatypesSelect.offsetWidth) + 15;
 	},
 	beforeMount () {
 		this.type = this.$route.params.type

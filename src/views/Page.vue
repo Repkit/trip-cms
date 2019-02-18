@@ -5,16 +5,20 @@
 				<div class="meta-header">
 					<form @submit.prevent="compilePage">
 					<button type="submit" class="submit-styled">
-						<font-awesome-icon :icon="['fas', 'rocket']"></font-awesome-icon><p>Publish Page</p>
+						<font-awesome-icon :icon="['fas', 'rocket']"></font-awesome-icon><p>Publish page</p>
 					</button>
 						<div class="input-holder">
-							<label for="">Page name *</label>
+							<label for="">Name *</label>
 							<input type="text" required v-model="page.Name" placeholder="Page name">
+						</div>
+						<div class="input-holder">
+							<label for="">Category</label>
+							<input type="text" v-model="page.Category" placeholder="Page category">
 						</div>
 						<div class="input-holder">
 							<label for="">Head snippet</label>
 							<div class="input-group">
-									<select name="" id="" :v-model="pageHead">
+									<select name="" id="" :v-model="page.Head">
 									<option value="" disabled selected hidden>Chose Header Snippet</option>
 									<option value="">No Header</option>
 									<option value="" v-for="(item, i) in headSnippets" :key="i">
@@ -25,7 +29,7 @@
 							<label for="">Insert subsnippet</label>
 							<div class="input-group">
 									<select name="" id="" v-model="selectedSnippet">
-										<option value="" disabled selected hidden>Select a Snippet</option>
+										<option value="" disabled selected hidden>Select a snippet</option>
 										<option v-for="(item, i) in snippets" :key="i" :value="item.Placeholder">
 											{{item.Name}}
 										</option>
@@ -34,18 +38,26 @@
 							</div>
 						</div>
 						<div class="input-holder">
-							<label>Full Page {{page.FullPage}}</label>
 							<div class="togglecheckbox" style="justify-content: flex-start">
 								<span id="fullPage" class="toggle-icon" :class="page.FullPage == 1 ? 'checked': ''" @click="toggleFullPage"></span>
-								<label class="label-text" for="fullPage" @click="toggleFullPage">Full Page</label>
+								<label class="label-text" for="fullPage" @click="toggleFullPage">Full page</label>
 							</div>
 						</div>
 						<div class="input-holder">
-							<label>Static Page {{page.StaticPage}}</label>
 							<div class="togglecheckbox" style="justify-content: flex-start">
 								<span id="staticPage" class="toggle-icon" :class="page.StaticPage == 1 ? 'checked': ''" @click="toggleStaticPage"></span>
-								<label class="label-text" for="staticPage" @click="toggleStaticPage">Static Page</label>
+								<label class="label-text" for="staticPage" @click="toggleStaticPage">Static page</label>
 							</div>
+						</div>
+						<div class="input-holder">
+							<div class="togglecheckbox" style="justify-content: flex-start">
+								<span id="crawlablePage" class="toggle-icon" :class="page.Crawlable == 1 ? 'checked': ''" @click="toggleCrawlablePage"></span>
+								<label class="label-text" for="crawlablePage" @click="toggleCrawlablePage">Crawlable page</label>
+							</div>
+						</div>
+						<div class="input-holder">
+							<label for="">Details</label>
+							<textarea v-model="page.Details" rows="4" cols="30"></textarea>
 						</div>
 					</form>
 				</div>
@@ -105,10 +117,6 @@ export default {
 			sec_height: 0,
 			full_width: 0,
 			full_height: 0,
-			// old
-			pageHead: '',
-			isFullPage: false,
-			isStaticPage: false,
 			selectedSnippet: '',
 			insertString: '',
 			mousemove: false,
@@ -138,6 +146,13 @@ export default {
 				this.page.StaticPage = '0';
 			} else {
 				this.page.StaticPage = '1';
+			}
+		},
+		toggleCrawlablePage() {
+			if (this.page.Crawlable == '1') {
+				this.page.Crawlable = '0';
+			} else {
+				this.page.Crawlable = '1';
 			}
 		},
 		insertSnippet () {
@@ -195,9 +210,6 @@ export default {
 		this.sec_height = (mainHeight)
 		this.full_width = mainWidth - 1
 		this.full_height = mainHeight - 47
-		/* this.isStaticPage = this.page.StaticPage
-		debugger */
-		//this.isFullPage = this.page.FullPage
 	},
 	computed: {
 		settings () {

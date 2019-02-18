@@ -254,7 +254,8 @@ const actions = {
 				PostScript: payload.PostScript,
 				Params: payload.Params
 			} }).then((resp) => {
-			commit('LOAD_PAGE', resp.data)
+			// commit('LOAD_PAGE', resp.data)
+			commit('LOAD_SNIPPET', resp.data)
 			router.push({ name: 'snippet', params: { id: resp.data.Id } })
 			commit('Toast/_add', 'Snippet updated')
 		}).catch((err) => {

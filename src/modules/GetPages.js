@@ -102,12 +102,14 @@ const actions = {
 			data: {
 				Id: '',
 				Name: payload.Name,
+				Category: payload.Category,
 				Content: payload.Content,
-				Crawlable: 1,
-				Status: payload.Status,
-				StaticPage: payload.StaticPage,
 				Head: payload.Head,
-				FullPage: payload.FullPage
+				FullPage: payload.FullPage,
+				StaticPage: payload.StaticPage,
+				Crawlable: payload.Crawlable,
+				Details: payload.Details,
+				Status: payload.Status
 			} }).then((resp) => {
 			router.push({ name: 'page', params: { id: resp.data.Id } })
 			commit('Toast/_add', 'Page created')
@@ -122,22 +124,21 @@ const actions = {
 			ingoreBaseUrl: true,
 			url: this._vm.CMS_BASE_URL + '/cms/pages/' + payload.Id,
 			data: {
-				Category: payload.Category,
-				Content: payload.Content,
-				Crawlable: payload.Crawlable,
-				Details: payload.Details,
-				FullPage: payload.FullPage,
-				Head: payload.Head,
 				Id: payload.Id,
 				Name: payload.Name,
+				Category: payload.Category,
+				Content: payload.Content,
+				Head: payload.Head,
+				FullPage: payload.FullPage,
 				StaticPage: payload.StaticPage,
+				Crawlable: payload.Crawlable,
+				Details: payload.Details,
 				Status: payload.Status
 			}
 		}).then((resp) => {
 			commit('LOAD_PAGE', resp.data)
 			router.push({ name: 'page', params: { id: resp.data.Id } })
 			commit('Toast/_add', 'Page updated')
-			debugger
 			document.getElementById('previewPage').src = document.getElementById('previewPage').src
 		}).catch((err) => {
 			console.log(err)

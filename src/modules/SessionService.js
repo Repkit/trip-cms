@@ -81,7 +81,6 @@ const actions = {
 		return url
 	},
 	getHash ({ commit, dispatch, getters }, requestData) { // get authentication hash from server (renewed for every call)
-		
 		let params = ''
 		if (!requestData.ingoreBaseUrl) {
 			requestData.params.endpoint = this._vm.BASE_URL + requestData.params.endpoint
