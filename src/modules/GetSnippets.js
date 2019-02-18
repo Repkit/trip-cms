@@ -48,7 +48,6 @@ const mutations = {
 		state.datasource = datasource
 	},
 	load_dataresponce (state, dataresponse) {
-		debugger
 		state.dataresponse = dataresponse
 	},
 	clearSnippetState (state) {
@@ -144,18 +143,17 @@ const actions = {
 		this._vm.$http.defaults.headers['Authorization'] = getters.getToken
 	},
 	callExternalApi ({ commit, dispatch, getters }, payload) {
-		debugger
 		axios({
 				method: 'GET',
 				url: payload,
 				// withCredentials: true
 			}).then((res) => {
-				debugger
 				commit('load_dataresponce', JSON.stringify(res.data, null, '   '))
 			}).catch((err) => {
 				console.log(err)
 			})
 	},
+	// TODO: refactor without regex
 	queryDataSourceParams ({ commit, dispatch, getters }, payload) {
 		dispatch('callApi', { 
 			method: 'GET', 
@@ -310,6 +308,7 @@ const actions = {
 		}).then((resp) => {
 			commit('LOAD_SNIPPET', resp.data)
 			dispatch('getPostScript', resp.data.Name)
+			dispatch('callExternalApi', resp.data.DataUrl)
 		}).catch((err) => {
 			console.log(err)
 			commit('Toast/_addError', 'Failed to load snippet')

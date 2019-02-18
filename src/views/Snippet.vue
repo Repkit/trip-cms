@@ -13,6 +13,7 @@
 			<div class="panel-container">
 				<div class="meta-header">
 					<form @submit.prevent="compileSnippet">
+						
 						<button type="submit" class="submit-styled">
 							<font-awesome-icon :icon="['fas', 'rocket']"></font-awesome-icon><p>Compile Code</p>
 						</button>
@@ -27,11 +28,11 @@
 						<div class="input-holder">
 							<label for="">Insert subsnippet</label>
 							<div class="input-group">
-									<select name="" id="" v-model="selectedSnippet">
-										<option value="" disabled selected hidden>Select a Snippet</option>
-										<option v-for="(item, i) in snippets" :key="i" :value="item.Placeholder">
-											{{item.Name}}
-										</option>
+								<select name="" id="" v-model="selectedSnippet">
+									<option value="" disabled selected hidden>Select a Snippet</option>
+									<option v-for="(item, i) in snippets" :key="i" :value="item.Placeholder">
+										{{item.Name}}
+									</option>
 								</select>
 								<button class="btn btn-green" @click.prevent="insertSnippet">Add</button>
 							</div>
@@ -39,25 +40,26 @@
 						<div class="input-holder">
 							<label for="">Data source type predefined</label>
 							<div class="input-group">
-									<select name="" @change="datatypeselect($event)" id="" v-model="datatype" ref="datatypesSelect">
-										<option value="" disabled selected hidden>Please Choose Datasource</option>
-										<option  v-for="(item, i) in datatypes" :key="i" :value="item.Id">
-											{{item.Name}}
-										</option>
+								<select name="" @change="datatypeselect($event)" id="" v-model="datatype" ref="datatypesSelect">
+									<option value="" disabled selected hidden>Please Choose Datasource</option>
+									<option  v-for="(item, i) in datatypes" :key="i" :value="item.Id">
+										{{item.Name}}
+									</option>
 								</select>
 							</div>
 						</div>
 						<div class="input-holder">
 							<label>Static snippet</label>
 							<div class="togglecheckbox" style="justify-content: flex-start">
-								<span id="staticSnippet" class="toggle-icon" :class="{'checked': isStatic}" @click="toggleStatic"></span>
-								<label class="label-text" for="staticSnippet" @click="toggleStatic">Static snippet</label>
+								<span id="staticSnippet" class="toggle-icon" :class="{'checked': isStaticSnippet}" @click="toggleStaticSnippet"></span>
+								<label class="label-text" for="staticSnippet" @click="toggleStaticSnippet">Static snippet</label>
 							</div>
 						</div>	
 						<div class="input-holder">
 							<label>Prescript</label>
 							<input type="text" v-model="snippet.PreScript">
 						</div>
+						
 					</form>
 				</div>
 				<div class="main-panel" ref="mainpanel" @mousemove="watchhandle($event)" @mouseup="stophandle()" @mouseleave="stophandle()">
@@ -81,7 +83,7 @@
 							:botlang="'json'"
 							:toplang="'javascript'"></Section>
                     </template>
-					 <template v-if="settings === 'tabs'">
+					<template v-if="settings === 'tabs'">
                         <div class="tabs_container">
 							<div class="editor_tabs">
 								<div class="editor_tabs_item" :class="{active: activeTab == i}" @click="toggletab(i)" v-for="(item, i) in page_tabs" :key="i"><p>{{item.type}}</p></div>
@@ -125,31 +127,31 @@
 			<div v-if="isActiveDataModal" @click.self="closemodal($event)" class="full-screen-wrapper">
 				<div class="modal leftdir" :style="{top: postopmodal + 'px', left: posleftmodal + 'px'}">
 					<div class="modal-form-content">
-					<template v-if="wichDataType === '0'">
-							<label for="">Data Source Url - all widgets defined</label>
-							<div class="form-section">
-								<select @change="requestData(selectedData)" name="" id="" v-model="selectedData">
-									<option value="" disabled selected hidden>Select data</option>
-									<option v-for="(item, i) in datasource" :key="i" :value="item">
-										{{item.Name}}
-									</option>
-								</select>
-							</div>
-							<div v-if="datasourceparams.length > 0">
-								<form @submit.prevent="generatedatasource">
-								<label for="">Widget required values</label>
-								<div class="data-source-params">
-									<input v-for="(item, i) in datasourceparams" v-model="querydatasrouceparams[i]" required :key="i" type="number" :placeholder="item.Name">
+						<template v-if="wichDataType === '0'">
+								<label for="">Data Source Url - all widgets defined</label>
+								<div class="form-section">
+									<select @change="requestData(selectedData)" name="" id="" v-model="selectedData">
+										<option value="" disabled selected hidden>Select data</option>
+										<option v-for="(item, i) in datasource" :key="i" :value="item">
+											{{item.Name}}
+										</option>
+									</select>
 								</div>
-								<div class="action">
-									<button type="submit" class="btn btn-green">Generate</button>
-									<button class="btn btn-grey" @click="closemodal">Cancel</button>
+								<div v-if="datasourceparams.length > 0">
+									<form @submit.prevent="generatedatasource">
+										<label for="">Widget required values</label>
+										<div class="data-source-params">
+											<input v-for="(item, i) in datasourceparams" v-model="querydatasrouceparams[i]" required :key="i" type="number" :placeholder="item.Name">
+										</div>
+										<div class="action">
+											<button type="submit" class="btn btn-green">Generate</button>
+											<button class="btn btn-grey" @click="closemodal">Cancel</button>
+										</div>
+									</form>
 								</div>
-								</form>
-							</div>
-					</template>
-					<template v-else-if="wichDataType === '1'">
-						<form @submit.prevent="customApi">
+						</template>
+						<template v-else-if="wichDataType === '1'">
+							<form @submit.prevent="customApi">
 								<label for="">Add external data source url *</label>
 								<div class="data-source-params">
 									<input type="text" v-model="externalApi" placeholder="Data source url">
@@ -159,7 +161,7 @@
 									<button class="btn btn-grey" @click="closemodal">Cancel</button>
 								</div>
 							</form>
-					</template>
+						</template>
 					</div>
 				</div>
 			</div>
@@ -197,7 +199,7 @@ export default {
 				{Id: 1, Name: 'Add an external data source type'}
 			],
 			// old
-			isStatic: false,
+			isStaticSnippet: false,
 			isActiveDataModal: false,
 			wichDataType: 0,
 			selectedSnippet: '',
@@ -224,16 +226,16 @@ export default {
 	},
 	methods: {
 		customApi() {
-			debugger
 			this.$store.dispatch('callExternalApi', this.externalApi);
+			this.snippet.DataUrl = this.externalApi
 		},
 		generatedatasource() {
-			this.querydatasrouceparams;
+			// this.querydatasrouceparams;
 			this.$store.dispatch('queryDataSourceParams', [this.selectedData ,this.querydatasrouceparams]);
 		},
-		toggleStatic() {
-			this.isStatic = !this.isStatic;
-			if (this.isStatic) {
+		toggleStaticSnippet() {
+			this.isStaticSnippet = !this.isStaticSnippet;
+			if (this.isStaticSnippet) {
 				this.snippet.Static = '1';
 			} else {
 				this.snippet.Static = '0';
@@ -269,9 +271,9 @@ export default {
 		onChangeJson (val) {
 
 		},
-		hndFileSelect (path) {
-			this.depend = this.$PROJECT_BASE_URL + '/published/' + path
-		},
+		// hndFileSelect (path) {
+		// 	this.depend = this.$PROJECT_BASE_URL + '/published/' + path
+		// },
 		closeFileModal () {
 			this.$store.commit('CLOSE_FILEMENU')
 		},
@@ -327,7 +329,7 @@ export default {
 		this.full_width = mainWidth - 1
 		this.full_height = mainHeight - 47
 		this.split_height = mainHeight / 2
-		this.isStatic = this.snippet.Static
+		this.isStaticSnippet = this.snippet.Static
 
 		this.postopmodal = this.$refs.datatypesSelect.offsetTop - 14
 		this.posleftmodal = (this.$refs.datatypesSelect.offsetLeft + this.$refs.datatypesSelect.offsetWidth) + 15;

@@ -43,8 +43,8 @@
 						<div class="input-holder">
 							<label>Static Page</label>
 							<div class="togglecheckbox" style="justify-content: flex-start">
-								<span id="staticPage" class="toggle-icon" :class="{'checked': isStaticPage}" @click="toggleStatic"></span>
-								<label class="label-text" for="staticPage" @click="toggleStatic">Static Page</label>
+								<span id="staticPage" class="toggle-icon" :class="{'checked': isStaticPage}" @click="toggleStaticPage"></span>
+								<label class="label-text" for="staticPage" @click="toggleStaticPage">Static Page</label>
 							</div>
 						</div>
 					</form>
@@ -134,7 +134,7 @@ export default {
 				this.page.FullPage = '0';
 			}
 		},
-		toggleStatic() {
+		toggleStaticPage() {
 			this.isStaticPage = !this.isStaticPage;
 			if (this.isStaticPage) {
 				this.page.StaticPage = '1';
@@ -149,9 +149,9 @@ export default {
 			this.page.Content = val
 			this.selectedSnippet = ''
 		},
-		hndFileSelect (path) {
-			this.depend = this.$PROJECT_BASE_URL + '/published/' + path
-		},
+		// hndFileSelect (path) {
+		// 	this.depend = this.$PROJECT_BASE_URL + '/published/' + path
+		// },
 		openFileBrowser () {
 			this.$store.commit('OPEN_FILEMENU', this)
 		},

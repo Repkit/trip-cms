@@ -5,10 +5,9 @@
 				<template v-if="type === 'page'">
 					<div class="meta-header">
 						<form @submit.prevent="SavePage">
-						<button type="submit" class="submit-styled">
-							<font-awesome-icon :icon="['fas', 'rocket']"></font-awesome-icon><p>Publish Page</p>
-						</button>
-						<!-- <p class="meta-title">Meta Header</p> -->
+							<button type="submit" class="submit-styled">
+								<font-awesome-icon :icon="['fas', 'rocket']"></font-awesome-icon><p>Publish Page</p>
+							</button>
 							<div class="input-holder">
 								<label for="">Page name *</label>
 								<input type="text" required v-model="pageName" placeholder="Page name">
@@ -36,10 +35,10 @@
 								</div>
 							</div>
 							<div class="input-holder">
-								<label>Full Page</label>
+								<label>Static Page</label>
 								<div class="togglecheckbox" style="justify-content: flex-start">
-									<span id="dyamic" :class="['toggle-icon', isFullPage ? 'checked' : '']" @click="toggleStaus"></span>
-									<label class="label-text" for="dyamic" @click="toggleStaus">Full Page</label>
+									<span id="staticPage" class="toggle-icon" :class="{'checked': isStaticPage}" @click="toggleStaticPage"></span>
+									<label class="label-text" for="staticPage" @click="toggleStaticPage">Static Page</label>
 								</div>
 							</div>
 						</form>
@@ -119,12 +118,12 @@
 								</div>
 							</div>
 							<div class="input-holder">
-								<label>Dynamic snippet</label>
+								<label>Static snippet</label>
 								<div class="togglecheckbox" style="justify-content: flex-start">
-									<span id="dyamic" :class="['toggle-icon', isDynamic ? 'checked' : '']" @click="toggleDynamic"></span>
-									<label class="label-text" for="dyamic" @click="toggleDynamic">Dyanamic</label>
+									<span id="staticSnippet" class="toggle-icon" :class="{'checked': isStaticSnippet}" @click="toggleStaticSnippet"></span>
+									<label class="label-text" for="staticSnippet" @click="toggleStaticSnippet">Static snippet</label>
 								</div>
-							</div>	
+							</div>
 							<div class="input-holder">
 								<label>Prescript</label>
 								<input type="text" v-model="snippetPreScript">
@@ -192,48 +191,48 @@
 						</template>
 					</div>
 					<transition name="fade" mode="out-in">
-					<div v-if="isActiveDataModal" @click.self="closemodal($event)" class="full-screen-wrapper">
-						<div class="modal leftdir" :style="{top: postopmodal + 'px', left: posleftmodal + 'px'}">
-							<div class="modal-form-content">
-							<template v-if="wichDataType === '0'">
-									<label for="">Data Source Url - all widgets defined</label>
-									<div class="form-section">
-										<select @change="requestData(selectedData)" name="" id="" v-model="selectedData">
-											<option value="" disabled selected hidden>Select data</option>
-											<option v-for="(item, i) in datasource" :key="i" :value="item">
-												{{item.Name}}
-											</option>
-										</select>
-									</div>
-									<div v-if="datasourceparams.length > 0">
-										<form @submit.prevent="generatedatasource">
-										<label for="">Widget required values</label>
-										<div class="data-source-params">
-											<input v-for="(item, i) in datasourceparams" v-model="querydatasrouceparams[i]" required :key="i" type="number" :placeholder="item.Name">
+						<div v-if="isActiveDataModal" @click.self="closemodal($event)" class="full-screen-wrapper">
+							<div class="modal leftdir" :style="{top: postopmodal + 'px', left: posleftmodal + 'px'}">
+								<div class="modal-form-content">
+								<template v-if="wichDataType === '0'">
+										<label for="">Data Source Url - all widgets defined</label>
+										<div class="form-section">
+											<select @change="requestData(selectedData)" name="" id="" v-model="selectedData">
+												<option value="" disabled selected hidden>Select data</option>
+												<option v-for="(item, i) in datasource" :key="i" :value="item">
+													{{item.Name}}
+												</option>
+											</select>
 										</div>
-										<div class="action">
-											<button type="submit" class="btn btn-green">Generate</button>
-											<button class="btn btn-grey" @click="closemodal">Cancel</button>
+										<div v-if="datasourceparams.length > 0">
+											<form @submit.prevent="generatedatasource">
+											<label for="">Widget required values</label>
+											<div class="data-source-params">
+												<input v-for="(item, i) in datasourceparams" v-model="querydatasrouceparams[i]" required :key="i" type="number" :placeholder="item.Name">
+											</div>
+											<div class="action">
+												<button type="submit" class="btn btn-green">Generate</button>
+												<button class="btn btn-grey" @click="closemodal">Cancel</button>
+											</div>
+											</form>
 										</div>
+								</template>
+								<template v-else-if="wichDataType === '1'">
+									<form @submit.prevent="customApi">
+											<label for="">Add external data source url *</label>
+											<div class="data-source-params">
+												<input type="text" v-model="externalApi" placeholder="Data source url">
+											</div>
+											<div class="action">
+												<button type="submit" class="btn btn-green">Generate</button>
+												<button class="btn btn-grey" @click="closemodal">Cancel</button>
+											</div>
 										</form>
-									</div>
-							</template>
-							<template v-else-if="wichDataType === '1'">
-								<form @submit.prevent="customApi">
-										<label for="">Add external data source url *</label>
-										<div class="data-source-params">
-											<input type="text" v-model="externalApi" placeholder="Data source url">
-										</div>
-										<div class="action">
-											<button type="submit" class="btn btn-green">Generate</button>
-											<button class="btn btn-grey" @click="closemodal">Cancel</button>
-										</div>
-									</form>
-							</template>
+								</template>
+								</div>
 							</div>
 						</div>
-					</div>
-				</transition>
+					</transition>
 				</template>
 			</div>
 		</div>
@@ -250,12 +249,15 @@ export default {
 	data () {
 		return {
 			type: '',
+			
 			// page vars
 			isFullPage: false,
+			isStaticPage: false,
 			pageContent: '',
 			pageName: '',
 			pageHead: '',
 			pageFullPage: '',
+			
 			// snippet vars
 			externalApi: '',
 			querydatasrouceparams: [],
@@ -264,7 +266,8 @@ export default {
 				{Id: 0, Name: 'Choose from widget builder module'},
 				{Id: 1, Name: 'Add an external data source type'}
 			],
-			isDynamic: false,
+			// is static snippet
+			isStaticSnippet: false,
 			isActiveDataModal: false,
 			snippetName: '',
 			snippetCategory: '',
@@ -324,25 +327,34 @@ export default {
 		},
 		customApi() {
 			this.$store.dispatch('callExternalApi', this.externalApi);
+			this.snippet.DataUrl = this.externalApi;
 		},
 		generatedatasource() {
 			this.querydatasrouceparams;
 			this.$store.dispatch('queryDatSrouceParams', [this.selectedData ,this.querydatasrouceparams])
 		},
-		toggleDynamic() {
-			this.isDynamic = !this.isDynamic;
-			if (this.isDynamic) {
-				this.snippetStatus = 1;
-			} else {
-				this.snippetStatus = 0;
-			}
-		},
-		toggleStaus() {
+		toggleFullPage() {
 			this.isFullPage = !this.isFullPage;
 			if (this.isFullPage) {
-				this.pageFullPage = '1';
+				this.page.FullPage = '1';
 			} else {
-				this.pageFullPage = '0';
+				this.page.FullPage = '0';
+			}
+		},
+		toggleStaticPage() {
+			this.isStaticPage = !this.isStaticPage;
+			if (this.isStaticPage) {
+				this.page.StaticPage = '1';
+			} else {
+				this.page.StaticPage = '0';
+			}
+		},
+		toggleStaticSnippet() {
+			this.isStaticSnippet = !this.isStaticSnippet;
+			if (this.isStaticSnippet) {
+				this.snippet.Static = '1';
+			} else {
+				this.snippet.Static = '0';
 			}
 		},
 		addSubSnippet (val) {
@@ -354,7 +366,8 @@ export default {
 				Name: this.pageName,
 				Content: this.pageContent,
 				Head: this.pageHead,
-				FullPage: this.pageFullPage
+				FullPage: this.isFullPage,
+				StaticPage: this.isStaticPage
 			}
 			this.$store.dispatch('createPage', this.page)
 		},
