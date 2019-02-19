@@ -46,6 +46,8 @@ const actions = {
 				)
 			}
 			if (getters.tokenHasLifes) {
+				data.UserId = getters.getCookie('userId')
+				data.Token = getters.getCookie('token')
 				const objectForHashCall = {
 					params: {
 						endpoint: url
