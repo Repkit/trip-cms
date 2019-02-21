@@ -277,7 +277,6 @@ const actions = {
 	},
 	
 	createSnippet ({ commit, dispatch, getters }, payload) {
-		debugger
 		dispatch('callApi', { 
 			method: 'POST',
 			ingoreBaseUrl: true,
