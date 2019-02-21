@@ -48,6 +48,8 @@ const actions = {
 			if (getters.tokenHasLifes) {
 				data.UserId = getters.getCookie('userId')
 				data.Token = getters.getCookie('token')
+				data.Workspace = this._vm.USER
+				data.Project = this._vm.PROJECT
 				const objectForHashCall = {
 					params: {
 						endpoint: url

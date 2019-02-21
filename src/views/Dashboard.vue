@@ -545,7 +545,8 @@ table {
 .render-width {
 	position: absolute;
 	top: 4px;
-	left: 4px;
+	/*left: 4px;*/
+	right: 4px;
 	background: #20262E;
 	border-radius: 4px;
 	display: inline-block;

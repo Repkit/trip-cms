@@ -4,9 +4,9 @@
 			<div class="panel-container">
 				<div class="meta-header">
 					<form @submit.prevent="compilePage">
-					<button type="submit" class="submit-styled">
-						<font-awesome-icon :icon="['fas', 'rocket']"></font-awesome-icon><p>Publish page</p>
-					</button>
+						<button type="submit" class="submit-styled">
+							<font-awesome-icon :icon="['fas', 'rocket']"></font-awesome-icon><p>Publish page</p>
+						</button>
 						<div class="input-holder">
 							<label for="">Name *</label>
 							<input type="text" required v-model="page.Name" placeholder="Page name">

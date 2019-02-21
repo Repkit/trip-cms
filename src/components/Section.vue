@@ -58,7 +58,7 @@
         </Editor>
     </div>
 	<div v-else-if="type === 'render'" class="section-h" :style="{width: sec_width + 'px', height: sec_height + 'px', }">
-		<div class="render-width render">{{sec_width}} px</div>
+		<div class="render-width render"><a :href="value" target="_blank">{{sec_width}} px</a></div>
 		<iframe id="previewPage" :width="sec_width - 1" :height="sec_height - 1" sandbox="allow-forms allow-scripts allow-same-origin allow-modals allow-popups" :src="value" frameborder="0"></iframe>
 	</div>
 </template>

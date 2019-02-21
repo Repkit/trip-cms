@@ -374,6 +374,7 @@ export default {
 			}
 		},
 		toggleStaticSnippet() {
+			debugger
 			if (this.snippet.Static == '1') {
 				this.snippet.Static = '0';
 			} else {
@@ -483,7 +484,7 @@ export default {
 	},
 	computed: {
 		snippet() {
-			return this.$store.getters.getSnippets
+			return this.$store.getters.getSnippet
 		},
 		page() {
 			return this.$store.getters.getPage
