@@ -1,5 +1,6 @@
 const state = {
 	mode: 'split',
+	// mode: 'tabs',
 	settings: {
 		wrap: false,
 		line: true

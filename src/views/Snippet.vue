@@ -70,24 +70,37 @@
 				</div>
 				<div class="main-panel" ref="mainpanel" @mousemove="watchhandle($event)" @mouseup="stophandle()" @mouseleave="stophandle()">
 					<template v-if="settings === 'split'">
-                        <Section ref="left"
+                        <!--<Section ref="left"
 							:type="'half'"
 							:sec_width="left_sec_width"
 							:sec_height="sec_height"
 							:value="snippet.Template"
 							:lang="'html'"
 							@onChangeListener="onChangeHTMLSnippet"
-							:insertString="insertString"></Section>
+							:insertString="insertString">
+                        </Section>-->
+                        <Section ref="left"
+							:type="'split'"
+							:sec_width="left_sec_width"
+							:sec_height="sec_height"
+							@onTopChangeListener="onChangeHTMLSnippet"
+							@onBotChangeListener="onChangeCSSSnippet"
+							:topval="snippet.Template"
+							:botval="snippet.Css"
+							:toplang="'html'"
+							:botlang="'css'">
+						</Section>
                         <div @mousedown="handle($event)" class="gutter" ref="gutter"></div>
 						<Section ref="left"
 							:type="'split'"
 							:sec_width="right_sec_width"
 							:sec_height="sec_height"
 							:botval="dataResponse"
-							@onChangeListener="onChangeJavascript"
+							@onTopChangeListener="onChangeJavascript"
 							:topval="postScriptContent"
 							:botlang="'json'"
-							:toplang="'javascript'"></Section>
+							:toplang="'javascript'">
+						</Section>
                     </template>
 					<template v-if="settings === 'tabs'">
                         <div class="tabs_container">
@@ -103,7 +116,8 @@
 									:value="snippet.Template"
 									:lang="'html'"
 									@onChangeListener="onChangeHTMLSnippet"
-									:insertString="insertString"></Section>
+									:insertString="insertString">
+									</Section>
 								</div>
 								<div class="section-full " v-else-if="activeTab == 1">
 									<Section ref="left"
@@ -112,16 +126,28 @@
 									:sec_height="full_height - 47"
 									:value="postScriptContent"
 									:lang="'javascript'"
-									@onChangeListener="onChangeJavascript"></Section>
+									@onChangeListener="onChangeJavascript">
+									</Section>
 								</div>
 								<div class="section-full " v-else-if="activeTab == 2">
 									<Section ref="left"
 									:type="'full'"
 									:sec_width="full_width"
 									:sec_height="full_height - 47"
+									:value="snippet.Css"
+									@onChangeListener="onChangeCSSSnippet"
+									:lang="'css'">
+									</Section>
+								</div>
+								<div class="section-full " v-else-if="activeTab == 3">
+									<Section ref="left"
+									:type="'full'"
+									:sec_width="full_width"
+									:sec_height="full_height - 47"
 									:value="dataResponse"
 									@onChangeListener="onChangeJson"
-									:lang="'json'"></Section>
+									:lang="'json'">
+									</Section>
 								</div>
 							</div>
 						</div>
@@ -224,6 +250,10 @@ export default {
 					editor: 'snippet'
 				},
 				{
+					type: 'Css',
+					editor: 'snippet'
+				},
+				{
 					type: 'Data Source',
 					editor: 'snippet'
 				}
@@ -278,6 +308,10 @@ export default {
 		onChangeHTMLSnippet (val) {
 			// this.snippet.Template = val
 			this.$store.dispatch('updateSnippetTemplate', val);
+		},
+		onChangeCSSSnippet (val) {
+			// this.snippet.Template = val
+			this.$store.dispatch('updateSnippetCSS', val);
 		},
 		onChangeJavascript(val) {
 			// this.postScriptContent = val

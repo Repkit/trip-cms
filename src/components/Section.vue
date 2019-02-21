@@ -23,7 +23,7 @@
                 :lang="toplang"
                 :width="sec_width - 1"
                 :height="top_height - 1"
-				:onChange="onChange"
+				:onChange="onTopChange"
 				:onInsert="insertString"
                 :fontsize="13">
             </Editor>
@@ -33,11 +33,14 @@
             <div @click="activebottom = !activebottom" class="section-heading">
                 <span>{{botlang}}</span>
             </div>
-			<div class="pseudo_editor">
-				<pre>
-					{{botval}}
-				</pre>
-			</div>
+             <Editor
+                :value="botval"
+                :lang="botlang"
+                :width="sec_width - 1"
+                :height="bot_height - 1"
+				:onChange="onBotChange"
+                :fontsize="13">
+            </Editor>
         </div>
     </div>
     <div v-else-if="type === 'full'" class="section-h" :style="{width: sec_width + 'px', height: sec_height + 'px', }">
@@ -77,6 +80,7 @@ export default {
 			mousemove: false,
 			top_width: 0,
 			top_height: 0,
+			bot_height: 0,
 			bottom_width: 0,
 			bottom_height: 0,
 			full_width: 0,
@@ -98,6 +102,12 @@ export default {
 		onChange (val) {
 			this.$emit('onChangeListener', val)
 		},
+		onTopChange (val) {
+			this.$emit('onTopChangeListener', val)
+		},
+		onBotChange (val) {
+			this.$emit('onBotChangeListener', val)
+		},
 		resizeSiblings (e) {
 			let top = this.$refs.top
 			let bottom = this.$refs.bottom
@@ -110,6 +120,7 @@ export default {
 			this.top_height = top.offsetHeight - 1
 			this.bottom_width = bottom.offsetWidth - 1
 			this.bottom_height = bottom.offsetHeight - 1
+			this.bot_height = this.bottom_height -1
 		},
 		handle (e) {
 			this.gutter = e.target

@@ -27,7 +27,7 @@ axios.defaults.transformRequest = function (data, headers) {
 		if (data[k]) {
 			serializedData.push(`${k}=${encodeURIComponent(data[k])}`)
 		} else {
-			serializedData.push(`${k}=${data[k]}`)
+			serializedData.push(`${k}=`)
 		}
 	}
 	return serializedData.join('&')

@@ -10,6 +10,7 @@ const state = {
 		Status: '1',
 		PreScript: null,
 		PostScript: '',
+		Css: '',
 		Params: null,
 		Details: null,
 		Category: null,
@@ -38,6 +39,9 @@ const mutations = {
 	UPDATE_SNIPPET (state, payload) {
 		state.snippet.Template = payload
 	},
+	UPDATE_SNIPPET_CSS (state, payload) {
+		state.snippet.Css = payload
+	},
 	LOAD_SNIPPETS (state, snippets) {
 		state.snippets = snippets
 	},
@@ -59,6 +63,7 @@ const mutations = {
 			Status: '1',
 			PreScript: null,
 			PostScript: '',
+			Css: '',
 			Params: null,
 			Details: null,
 			Category: null,
@@ -252,6 +257,7 @@ const actions = {
 				Static: payload.Static,
 				PreScript: payload.PreScript,
 				PostScript: payload.PostScript,
+				Css: payload.Css,
 				Params: payload.Params
 			} }).then((resp) => {
 			// commit('LOAD_PAGE', resp.data)
@@ -266,7 +272,12 @@ const actions = {
 	updateSnippetTemplate ({ commit }, payload) {
 		commit('UPDATE_SNIPPET', payload)
 	},
+	updateSnippetCSS ({ commit }, payload) {
+		commit('UPDATE_SNIPPET_CSS', payload)
+	},
+	
 	createSnippet ({ commit, dispatch, getters }, payload) {
+		debugger
 		dispatch('callApi', { 
 			method: 'POST',
 			ingoreBaseUrl: true,
@@ -281,6 +292,7 @@ const actions = {
 				Static: '1',
 				PreScript: payload.PreScript,
 				PostScript: this._vm.PROJECT_BASE_URL + '/published/js/' + payload.Name + '_postScript.js',
+				Css: payload.Css,
 				Params: payload.Params
 			} }).then((resp) => {
 			dispatch('createPostScript', payload)
@@ -310,6 +322,9 @@ const actions = {
 			ingoreBaseUrl: true,
 			url: this._vm.CMS_BASE_URL + '/cms/snippets/' + snippetid
 		}).then((resp) => {
+			if(resp.data.Css === null){
+				resp.data.Css = ''
+			}
 			commit('LOAD_SNIPPET', resp.data)
 			dispatch('getPostScript', resp.data.Name)
 			dispatch('callExternalApi', resp.data.DataUrl)

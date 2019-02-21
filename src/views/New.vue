@@ -138,7 +138,7 @@
 							</div>
 							<div class="input-holder">
 								<div class="togglecheckbox" style="justify-content: flex-start">
-									<span id="staticSnippet" class="toggle-icon" :class="{'checked': isStaticSnippet}" @click="toggleStaticSnippet"></span>
+									<span id="staticSnippet" class="toggle-icon" :class="snippet.Static == 1 ? 'checked': ''" @click="toggleStaticSnippet"></span>
 									<label class="label-text" for="staticSnippet" @click="toggleStaticSnippet">Static snippet</label>
 								</div>
 							</div>
@@ -151,13 +151,16 @@
 					<div class="main-panel" ref="mainpanel" @mousemove="watchhandle($event)" @mouseup="stophandle()" @mouseleave="stophandle()">
 						<template v-if="settings === 'split'">
 							<Section ref="left"
-							:type="'half'"
-							:sec_width="left_sec_width"
-							:sec_height="full_height"
-							:value="snippet.Template"
-							:lang="'html'"
-							@onChangeListener="onChangeHTMLSnippet"
-							:insertString="insertString"></Section>
+								:type="'split'"
+								:sec_width="left_sec_width"
+								:sec_height="sec_height"
+								@onTopChangeListener="onChangeHTMLSnippet"
+								@onBotChangeListener="onChangeCSSSnippet"
+								:topval="snippet.Template"
+								:botval="snippet.Css"
+								:toplang="'html'"
+								:botlang="'css'">
+							</Section>
 							<div @mousedown="handle($event)" class="gutter" ref="gutter"></div>
 							<Section ref="right"
 								:type="'split'"
@@ -200,9 +203,20 @@
 										:type="'full'"
 										:sec_width="full_width"
 										:sec_height="full_height - 47"
+										:value="snippet.Css"
+										@onChangeListener="onChangeCSSSnippet"
+										:lang="'css'">
+										</Section>
+									</div>
+									<div class="section-full " v-else-if="activeTab == 3">
+										<Section ref="left"
+										:type="'full'"
+										:sec_width="full_width"
+										:sec_height="full_height - 47"
 										:value="dataResponse"
 										@onChangeListener="onChangeJson"
-										:lang="'json'"></Section>
+										:lang="'json'">
+										</Section>
 									</div>
 								</div>
 							</div>
@@ -306,6 +320,10 @@ export default {
 					editor: 'snippet'
 				},
 				{
+					type: 'Css',
+					editor: 'snippet'
+				},
+				{
 					type: 'Data Source',
 					editor: 'snippet'
 				}
@@ -390,6 +408,7 @@ export default {
 				Template: this.snippet.Template,
 				PreScript: this.snippet.PreScript,
 				PostScript: this.snippet.Name,
+				Css: this.snippet.Css,
 				DataUrl: this.snippet.DataUrl,
 				Status: this.snippet.Status,
 				PostScriptContent: this.snippet.PostScript
@@ -413,6 +432,9 @@ export default {
 		onChangeHTMLSnippet (val) {
 			this.snippet.Template = val
 			this.selectedSnippet = ''
+		},
+		onChangeCSSSnippet (val) {
+			this.snippet.Css = val
 		},
 		onChangeJavascript (val) {
 			this.snippetPostScript = val;

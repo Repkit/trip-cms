@@ -3,8 +3,8 @@
     "AUTH_URL": "https://developers.dcsplus.net/workspaces/public/hash.php",
     "API_BASE_URL": "https://developers.dcsplus.net/dynapack/clients/bitusi/public/api.php",
     "FILE_MANAGER": "https://developers.dcsplus.net/workspaces/public/bridges/php-local/index.php",
-	"CMS_BASE_URL": "https://developers.dcsplus.net/workspaces/public/users/johnnyb/retour/api.php",
-	"PROJECT_BASE_URL": "https://developers.dcsplus.net/workspaces/public/users/johnnyb/retour",
+	"CMS_BASE_URL": "https://developers.dcsplus.net/workspaces/public/users/johnnyb/flux/api.php",
+	"PROJECT_BASE_URL": "https://developers.dcsplus.net/workspaces/public/users/johnnyb/flux",
 	"USER" : "johnnyb",
-	"PROJECT" : "retour"
+	"PROJECT" : "flux"
 }
