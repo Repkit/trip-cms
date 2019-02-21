@@ -239,7 +239,11 @@ const actions = {
 			commit('Toast/_add', 'Snippet deleted')
 		}).catch((err) => {
 			console.log(err)
-			commit('Toast/_addError', 'Failed to delete snippet')
+			if(403 == err.response.status){
+				commit('Toast/_addError', 'Forbidden (#403) - You are not allowed to perform this action!')
+			}else{
+				commit('Toast/_addError', 'Failed to delete snippet')
+			}
 		})
 	},
 	saveSnippet ({ commit, dispatch, getters }, payload) {
@@ -266,7 +270,12 @@ const actions = {
 			commit('Toast/_add', 'Snippet updated')
 		}).catch((err) => {
 			console.log(err)
-			commit('Toast/_addError', 'Failed to save snippet')
+			if(403 == err.response.status){
+				commit('Toast/_addError', 'Forbidden (#403) - You are not allowed to perform this action!')
+			}else{
+				commit('Toast/_addError', 'Failed to load snippet')
+			}
+			
 		})
 	},
 	updateSnippetTemplate ({ commit }, payload) {
@@ -299,7 +308,11 @@ const actions = {
 			commit('Toast/_add', 'Snippet created')
 		}).catch((err) => {
 			console.log(err)
-			commit('Toast/_addError', 'Failed to create snippet')
+			if(403 == err.response.status){
+				commit('Toast/_addError', 'Forbidden (#403) - You are not allowed to perform this action!')
+			}else{
+				commit('Toast/_addError', 'Failed to create snippet')
+			}
 		})
 	},
 	toggleSnippetStatus ({ commit, dispatch }, payload) {
@@ -329,7 +342,11 @@ const actions = {
 			dispatch('callExternalApi', resp.data.DataUrl)
 		}).catch((err) => {
 			console.log(err)
-			commit('Toast/_addError', 'Failed to load snippet')
+			if(403 == err.response.status){
+				commit('Toast/_addError', 'Forbidden (#403) - You are not allowed to perform this action!')
+			}else{
+				commit('Toast/_addError', 'Failed to load snippet')
+			}
 		})
 	},
 	fetchSnippets ({ commit, dispatch }) {
@@ -341,7 +358,11 @@ const actions = {
 			commit('LOAD_SNIPPETS', resp.data._embedded.snippets)
 		}).catch((err) => {
 			console.log(err)
-			commit('Toast/_addError', 'Failed to load snippets')
+			if(403 == err.response.status){
+				commit('Toast/_addError', 'Forbidden (#403) - You are not allowed to perform this action!')
+			}else{
+				commit('Toast/_addError', 'Failed to load snippets')
+			}
 		})
 	},
 	fetchWidgets ({ commit, dispatch }) {

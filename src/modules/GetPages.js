@@ -80,7 +80,11 @@ const actions = {
 			commit('Toast/_add', 'Page deleted')
 		}).catch((err) => {
 			console.log(err)
-			commit('Toast/_addError', 'Failed to delete page')
+			if(403 == err.response.status){
+				commit('Toast/_addError', 'Forbidden (#403) - You are not allowed to perform this action!')
+			}else{
+				commit('Toast/_addError', 'Failed to delete page')
+			}
 		})
 	},
 	togglePageStatus ({ commit, dispatch }, payload) {
@@ -115,7 +119,11 @@ const actions = {
 			commit('Toast/_add', 'Page created')
 		}).catch((err) => {
 			console.log(err)
-			commit('Toast/_addError', 'Failed to publish page')
+			if(403 == err.response.status){
+				commit('Toast/_addError', 'Forbidden (#403) - You are not allowed to perform this action!')
+			}else{
+				commit('Toast/_addError', 'Failed to publish page')
+			}
 		})
 	},
 	savePage ({ commit, dispatch }, payload) {
@@ -142,7 +150,11 @@ const actions = {
 			document.getElementById('previewPage').src = document.getElementById('previewPage').src
 		}).catch((err) => {
 			console.log(err)
-			commit('Toast/_addError', 'Failed to save page')
+			if(403 == err.response.status){
+				commit('Toast/_addError', 'Forbidden (#403) - You are not allowed to perform this action!')
+			}else{
+				commit('Toast/_addError', 'Failed to save page')
+			}
 		})
 	},
 	loadPage ({ commit, dispatch }, pageId) {
@@ -154,7 +166,11 @@ const actions = {
 			commit('LOAD_PAGE', resp.data)
 		}).catch((err) => {
 			console.log(err)
-			commit('Toast/_addError', 'Failed to load page')
+			if(403 == err.response.status){
+				commit('Toast/_addError', 'Forbidden (#403) - You are not allowed to perform this action!')
+			}else{
+				commit('Toast/_addError', 'Failed to load page')
+			}
 		})
 	},
 	fetchPages ({ commit, dispatch, getters }) {
@@ -166,7 +182,11 @@ const actions = {
 			commit('LOAD_PAGES', resp.data._embedded.pages)
 		}).catch((err) => {
 			console.log(err)
-			commit('Toast/_addError', 'Failed to load pages')
+			if(403 == err.response.status){
+				commit('Toast/_addError', 'Forbidden (#403) - You are not allowed to perform this action!')
+			}else{
+				commit('Toast/_addError', 'Failed to load pages')
+			}
 		})
 	}
 }
