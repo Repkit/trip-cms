@@ -36,7 +36,6 @@ export default {
 			}
 
 			this.$store.dispatch('login', credentials).then(response => {
-				console.log(response)
 				this.$router.push('/')
 			})
 		}

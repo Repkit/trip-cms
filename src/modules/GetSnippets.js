@@ -106,6 +106,9 @@ const actions = {
 				item: '/' + this._vm.USER + '/' + this._vm.PROJECT + '/published/js/' + payload + '_postScript.js'
 			}
 		}).then((res) => {
+			if(res.data.result === null){
+				res.data.result = ''
+			}
 			commit('POSTSCRIPT_CONTENT', res.data.result)
 		}).catch((err) => {
 			console.log(err)
@@ -151,6 +154,7 @@ const actions = {
 		this._vm.$http.defaults.headers['Authorization'] = getters.getToken
 	},
 	callExternalApi ({ commit, dispatch, getters }, payload) {
+		if(!payload) return;
 		axios({
 			method: 'GET',
 			url: payload
@@ -264,7 +268,12 @@ const actions = {
 				Css: payload.Css,
 				Params: payload.Params
 			} }).then((resp) => {
-			// commit('LOAD_PAGE', resp.data)
+			if( null === resp.data.Template ){
+				resp.data.Template = ''
+			}
+			if( null === resp.data.Css ){
+				resp.data.Css = ''
+			}
 			commit('LOAD_SNIPPET', resp.data)
 			router.push({ name: 'snippet', params: { id: resp.data.Id } })
 			commit('Toast/_add', 'Snippet updated')
@@ -334,14 +343,17 @@ const actions = {
 			ingoreBaseUrl: true,
 			url: this._vm.CMS_BASE_URL + '/cms/snippets/' + snippetid
 		}).then((resp) => {
-			if(resp.data.Css === null){
+			if( null === resp.data.Template ){
+				resp.data.Template = ''
+			}
+			if( null === resp.data.Css ){
 				resp.data.Css = ''
 			}
 			commit('LOAD_SNIPPET', resp.data)
 			dispatch('getPostScript', resp.data.Name)
 			dispatch('callExternalApi', resp.data.DataUrl)
 		}).catch((err) => {
-			console.log(err)
+			// console.log(err)
 			if(403 == err.response.status){
 				commit('Toast/_addError', 'Forbidden (#403) - You are not allowed to perform this action!')
 			}else{

@@ -12,7 +12,7 @@ export default {
 		},
 		lang: {
 			type: String,
-			default: 'html'
+			default: 'twig'
 		},
 		fontsize: {
 			type: Number,
@@ -76,19 +76,53 @@ export default {
 	},
 	mounted () {
 		let vm = this; let editor
-		this.editor = editor = ace.edit(this.$el)
-		this.lang === 'html' && require('brace/ext/emmet')
+		
+		/*if(this.lang === 'twig' || this.lang === 'html'){
+			window.emmet = require('emmet')
+			require('brace/ext/emmet')	
+		}  */
 		require('brace/ext/beautify')
 		require('brace/ext/searchbox')
+		// require('brace/ext/themelist')
 		require('brace/ext/language_tools')
+		require('brace/ext/settings_menu')
 		require('brace/mode/' + this.lang)
+		require('brace/theme/solarized_dark')
 		require('brace/theme/tomorrow_night')
 		require('brace/snippets/' + this.lang)
-
+		
+		ace.acequire('ace/ext/beautify')
+		ace.acequire('ace/ext/searchbox')
+		/*var themelist = ace.acequire('ace/ext/themelist')
+		console.log(themelist)*/
+		ace.acequire('ace/ext/language_tools')
+		
+		this.editor = editor = ace.edit(this.$el)
+		
+		//settings menu
+		ace.acequire('ace/ext/settings_menu').init(editor)
+		
 		// editor.$blockScrolling = Infinity
 		editor.getSession().setMode('ace/mode/' + this.lang)
 		editor.setTheme('ace/theme/tomorrow_night')
 		editor.getSession().setValue(this.value, 1)
+		
+		// enable autocompletion and snippets
+		editor.setOptions({
+		  enableBasicAutocompletion: true,
+		  enableSnippets: true,
+		  enableLiveAutocompletion: false
+		  //,enableEmmet: true
+		});
+		editor.commands.addCommands([{
+			name: "showSettingsMenu",
+			bindKey: {win: "Ctrl-q", mac: "Ctrl-q"},
+			exec: function(editor) {
+				editor.showSettingsMenu();
+			},
+			readOnly: true
+		}]);
+		
 		editor.renderer.setShowGutter(true)
 		editor.session.setUseWrapMode(true)
 		editor.session.on('change', this.onChangeListener)

@@ -16,7 +16,7 @@
 							<input type="text" v-model="page.Category" placeholder="Page category">
 						</div>
 						<div class="input-holder">
-							<label for="">Head snippet</label>
+							<!--<label for="">Head snippet</label>
 							<div class="input-group">
 									<select name="" id="" :v-model="page.Head">
 									<option value="" disabled selected hidden>Chose Header Snippet</option>
@@ -25,7 +25,7 @@
 										{{item.Name}}
 									</option>
 								</select>
-							</div>
+							</div>-->
 							<label for="">Insert subsnippet</label>
 							<div class="input-group">
 									<select name="" id="" v-model="selectedSnippet">
@@ -222,11 +222,11 @@ export default {
 		snippets () {
 			return this.$store.getters.getSnippets
 		},
-		headSnippets () {
+		/*headSnippets () {
 			return this.snippets.filter((elem) => {
 				return elem.Category === 'Head'
 			})
-		},
+		},*/
 		widgets () {
 			return this.$store.getters.getWidgets
 		}

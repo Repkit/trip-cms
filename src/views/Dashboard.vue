@@ -27,7 +27,7 @@
 		<div class="sidenav">
 			<div class="sidenav-left">
 				<router-link tag="div" class="sidenav-item dashboard-icon" :to="{ path: '/pages', name: 'pages'}">
-					<font-awesome-icon :icon="['fab', 'vuejs']" />
+					<!--<font-awesome-icon :icon="['fab', 'vuejs']" />-->
 				</router-link>
 				<router-link tag="div" class="sidenav-item" :to="{ path: '/pages', name: 'pages'}">
 					<font-awesome-icon :icon="['far', 'file-alt']"></font-awesome-icon>
@@ -173,11 +173,16 @@ export default {
 	}
 
 	&.dashboard-icon {
-		padding: 0 20px;
+		/*padding: 0 20px;
 		& svg {
 			color: #66E994;
 			font-size: 22px;
-		}
+		}*/
+		margin-top: 5px;
+	    margin-left: 5px;
+	    padding: 0 27px;
+		background-image: url("https://developers.dcsplus.net/images/logo-xs.png");
+		background-repeat: no-repeat;
 	}
 
 	&:hover {
@@ -629,6 +634,11 @@ table {
 			top: 4px;
 		} */
 	}
+}
+.section-heading-info {
+	text-transform: lowercase;
+	font-style: italic;
+	font-size: 10px;
 }
 .compile {
 	position: relative;

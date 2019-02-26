@@ -6,11 +6,11 @@ const state = {
 		Name: '',
 		Content: '',
 		Head: '',
-		StaticPage: '',
-		Crawlable: '',
+		StaticPage: '0',
+		Crawlable: '1',
 		Category: '',
 		Details: '',
-		FullPage: '',
+		FullPage: '1',
 		Status: '',
 		Timestamp: '',
 		_links: {
@@ -42,7 +42,7 @@ const mutations = {
 			Crawlable: '1',
 			Category: '',
 			Details: '',
-			FullPage: '0',
+			FullPage: '1',
 			Status: '1',
 			Timestamp: '',
 			_links: {

@@ -38,7 +38,7 @@
 							</div>
 						</div>
 						<div class="input-holder">
-							<label for="">Data source type predefined</label>
+							<label for="">Data source</label>
 							<transition name="fade" mode="out-in">
 								<div v-if="snippet.DataUrl"
 								class="small_card">
@@ -75,7 +75,7 @@
 							:sec_width="left_sec_width"
 							:sec_height="sec_height"
 							:value="snippet.Template"
-							:lang="'html'"
+							:lang="'twig'"
 							@onChangeListener="onChangeHTMLSnippet"
 							:insertString="insertString">
                         </Section>-->
@@ -87,7 +87,9 @@
 							@onBotChangeListener="onChangeCSSSnippet"
 							:topval="snippet.Template"
 							:botval="snippet.Css"
-							:toplang="'html'"
+							:toptitle="'(template)'"
+							:bottitle="'(styles)'"
+							:toplang="'twig'"
 							:botlang="'css'">
 						</Section>
                         <div @mousedown="handle($event)" class="gutter" ref="gutter"></div>
@@ -95,11 +97,13 @@
 							:type="'split'"
 							:sec_width="right_sec_width"
 							:sec_height="sec_height"
-							:botval="dataResponse"
 							@onTopChangeListener="onChangeJavascript"
 							:topval="postScriptContent"
-							:botlang="'json'"
-							:toplang="'javascript'">
+							:botval="dataResponse"
+							:toptitle="snippet.Static == 1 ? '(document.ready)': '(render.post)'"
+							:bottitle="'(styles)'"
+							:toplang="'javascript'"
+							:botlang="'json'">
 						</Section>
                     </template>
 					<template v-if="settings === 'tabs'">

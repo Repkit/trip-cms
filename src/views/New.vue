@@ -17,7 +17,7 @@
 								<input type="text" v-model="page.Category" placeholder="Page category">
 							</div>
 							<div class="input-holder">
-								<label for="">Head snippet</label>
+								<!--<label for="">Head snippet</label>
 								<div class="input-group">
 										<select name="" id="" :v-model="page.Head">
 										<option value="" disabled selected hidden>Chose header snippet</option>
@@ -26,7 +26,7 @@
 											{{item.Name}}
 										</option>
 									</select>
-								</div>
+								</div>-->
 								<label for="">Insert subsnippet</label>
 								<div class="input-group">
 										<select name="" id="" v-model="selectedSnippet">
@@ -126,7 +126,7 @@
 								</div>
 							</div>
 							<div class="input-holder">
-								<label for="">Data source type predefined</label>
+								<label for="">Data source</label>
 								<div class="input-group">
 										<select name="" @change="datatypeselect($event)" id="" v-model="datatype" ref="datatypesSelect">
 											<option value="" disabled selected hidden>Please choose data source</option>
@@ -158,7 +158,9 @@
 								@onBotChangeListener="onChangeCSSSnippet"
 								:topval="snippet.Template"
 								:botval="snippet.Css"
-								:toplang="'html'"
+								:toptitle="'(template)'"
+								:bottitle="'(styles)'"
+								:toplang="'twig'"
 								:botlang="'css'">
 							</Section>
 							<div @mousedown="handle($event)" class="gutter" ref="gutter"></div>
@@ -169,6 +171,8 @@
 								:botval="dataResponse"
 								:topval="snippet.PostScript"
 								@onChangeListener="onChangeJavascript"
+								:toptitle="snippet.Static == 1 ? '(document.ready)': '(render.post)'"
+								:bottitle="'(data source response [__ds])'"
 								:toplang="'javascript'"
 								:botlang="'json'">
 							</Section>
@@ -185,7 +189,7 @@
 										:sec_width="full_width"
 										:sec_height="full_height - 47"
 										:value="snippet.Template"
-										:lang="'html'"
+										:lang="'twig'"
 										@onChangeListener="onChangeHTMLSnippet"
 										:insertString="insertString"></Section>
 									</div>
@@ -374,7 +378,6 @@ export default {
 			}
 		},
 		toggleStaticSnippet() {
-			debugger
 			if (this.snippet.Static == '1') {
 				this.snippet.Static = '0';
 			} else {
@@ -472,10 +475,14 @@ export default {
 		this.sec_height = mainHeight
 		this.full_width = mainWidth
 		this.full_height = mainHeight - 36
+		if(typeof this.$refs != 'undefined'){
+			this.postopmodal = this.$refs.datatypesSelect.offsetTop - 14
+			this.posleftmodal = (this.$refs.datatypesSelect.offsetLeft + this.$refs.datatypesSelect.offsetWidth) + 15;
+		}else{
+			this.postopmodal = 387
+			this.posleftmodal = 246
+		}
 		
-		/* throw error with $refs undefined*/
-		// this.postopmodal = this.$refs.datatypesSelect.offsetTop - 14
-		// this.posleftmodal = (this.$refs.datatypesSelect.offsetLeft + this.$refs.datatypesSelect.offsetWidth) + 15;
 	},
 	beforeMount () {
 		this.type = this.$route.params.type
@@ -495,11 +502,11 @@ export default {
 		snippets () {
 			return this.$store.getters.getSnippets
 		},
-		headSnippets () {
+		/*headSnippets () {
 			return this.snippets.filter((elem) => {
 				return elem.Category === 'Head'
 			})
-		},
+		},*/
 		widgets () {
 			return this.$store.getters.getWidgets
 		},

@@ -16,7 +16,7 @@
     <div v-else-if="type === 'split'" class="section-h" @mousemove="watchhandle($event)" @mouseup="stophandle()" @mouseleave="stophandle()" :style="{width: sec_width + 'px', height: sec_height + 'px', }">
         <div class="section-v" ref="top" :style="{width: sec_width + 'px', height: sec_height / 2 + 'px'}">
             <div class="section-heading">
-                <span>{{toplang}}</span>
+                <span>{{toplang}}</span> <span class="section-heading-info"> {{toptitle}}</span>
             </div>
             <Editor
                 :value="topval"
@@ -31,8 +31,9 @@
         <div @mousedown="handle($event)" class="gutter-v" ref="gutter"></div>
         <div class="section-v" ref="bottom" :style="{width: sec_width + 'px', height: sec_height / 2 + 'px'}">
             <div @click="activebottom = !activebottom" class="section-heading">
-                <span>{{botlang}}</span>
+                <span>{{botlang}}</span> <span class="section-heading-info"> {{bottitle}}</span>
             </div>
+            
              <Editor
                 :value="botval"
                 :lang="botlang"
@@ -70,7 +71,7 @@ export default {
 		Editor,
 		DropDown
 	},
-	props: ['value', 'lang', 'type', 'sec_width', 'sec_height', 'toplang', 'botlang', 'insertString', 'topval', 'botval'],
+	props: ['value', 'lang', 'type', 'sec_width', 'sec_height', 'toplang', 'botlang', 'insertString', 'topval', 'botval', 'toptitle', 'bottitle'],
 	data () {
 		return {
 			dataSource: '',
