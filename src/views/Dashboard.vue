@@ -1,5 +1,5 @@
 <template>
-	<div id="main">
+	<div id="main" @keyup="watchEvents($event)" @mousemove="watchEvents($event)">
 		<transition-group name="fade" mode="out-in">
 			<div v-for="(toast, t) in toasts" :key="`toast_${t}`"
 				:class="toast.type"
@@ -70,6 +70,7 @@
 	</div>
 </template>
 <script>
+import { throttle, debounce } from "throttle-debounce"
 import DropDownModal from '../components/DropDownModal'
 export default {
 	components: {
@@ -105,7 +106,11 @@ export default {
 		closemodal (e) {
 			e.stopPropagation()
 			this.active = false
-		}
+		},
+		watchEvents: throttle(30000, function() {
+			// reset keepAlive timer if activity was detected in 30 seconds
+			this.$store.dispatch("resetKeepAliveClientSideTimer");
+		}),
 	},
 	mounted() {
 
