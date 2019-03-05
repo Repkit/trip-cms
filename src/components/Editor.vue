@@ -126,7 +126,7 @@ export default {
 		editor.renderer.setShowGutter(true)
 		editor.session.setUseWrapMode(true)
 		editor.session.on('change', this.onChangeListener)
-		this.$refs.editor.style.fontSize = this.fontsize + 'px'
+		// this.$refs.editor.style.fontSize = this.fontsize + 'px'
 		editor.resize();
 	},
 }
