@@ -246,6 +246,11 @@ export default {
 		}
 	}
 }
+ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
 table {
 	th {
 		text-align: left;
@@ -843,5 +848,33 @@ table {
 			cursor: pointer;
 		}
 	}
+}
+.sort-list {
+	position: absolute;
+	top: 37px;
+	left: 0;
+	width: 100%;
+	background: #20262E;
+	border: #2D333B solid 1px;	
+	z-index: 2;
+	height: 200px;
+	overflow-y: auto;
+
+	& li {
+		padding : 0 0 0 14px;
+		& .category {
+			font-weight: 600
+		}
+		& .item {
+			padding-left: 7px;
+		}
+	}
+	& .item:hover {
+		cursor: pointer;
+	}
+}
+.sort-container {
+	position:relative;
+	z-index: 11;
 }
 </style>

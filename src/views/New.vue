@@ -29,13 +29,15 @@
 								</div>-->
 								<label for="">Insert subsnippet</label>
 								<div class="input-group">
-										<select name="" id="" v-model="selectedSnippet">
+									<Sort :data="snippets" :sortBy="'Name'"
+										@requestInsertSnippet="insertSnippet">
+									</Sort>
+										<!-- <select name="" id="" v-model="selectedSnippet">
 											<option value="" disabled selected hidden>Chose snippet</option>
 											<option v-for="(item, i) in snippets" :key="i" :value="item.Placeholder">
 												{{item.Name}}
 											</option>
-									</select>
-									<button class="btn btn-green" @click.prevent="insertSnippet">Add</button>
+									</select> -->
 								</div>
 							</div>
 							<div class="input-holder">
@@ -115,7 +117,10 @@
 							</div>
 							<div class="input-holder">
 								<label for="">Insert subsnippet</label>
-								<div class="input-group">
+								<Sort :data="snippets" :sortBy="'Name'"
+									@requestInsertSnippet="insertSnippet">
+								</Sort>
+								<!-- <div class="input-group">
 										<select name="" id="" v-model="selectedSnippet">
 											<option value="" disabled selected hidden>Select a snippet</option>
 											<option v-for="(item, i) in snippets" :key="i" :value="item.Placeholder">
@@ -123,7 +128,7 @@
 											</option>
 									</select>
 									<button class="btn btn-green" @click.prevent="insertSnippet">Add</button>
-								</div>
+								</div> -->
 							</div>
 							<div class="input-holder">
 								<label for="">Data source</label>
@@ -275,17 +280,18 @@
 	</div>
 </template>
 <script>
+import Sort from '../components/Sort'
 import Section from '../components/Section'
 import Editor from '../components/Editor'
 export default {
 	components: {
+		Sort,
 		Editor,
 		Section
 	},
 	data () {
 		return {
 			type: '',
-			
 			// snippet vars
 			externalApi: '',
 			querydatasrouceparams: [],
@@ -426,8 +432,8 @@ export default {
 		toggletab (i) {
 			this.activeTab = i
 		},
-		insertSnippet () {
-			return this.insertString = this.selectedSnippet
+		insertSnippet (val) {
+			return this.insertString = val.Placeholder
 		},
 		onChangeHTMLPage (val) {
 			this.page.Content = val

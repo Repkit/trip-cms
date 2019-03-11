@@ -27,7 +27,10 @@
 								</select>
 							</div>-->
 							<label for="">Insert subsnippet</label>
-							<div class="input-group">
+							<Sort :data="snippets" :sortBy="'Name'"
+								@requestInsertSnippet="insertSnippet">
+							</Sort>
+							<!-- <div class="input-group">
 									<select name="" id="" v-model="selectedSnippet">
 										<option value="" disabled selected hidden>Select a snippet</option>
 										<option v-for="(item, i) in snippets" :key="i" :value="item.Placeholder">
@@ -35,7 +38,7 @@
 										</option>
 								</select>
 								<button class="btn btn-green" @click.prevent="insertSnippet">Add</button>
-							</div>
+							</div> -->
 						</div>
 						<div class="input-holder">
 							<div class="togglecheckbox" style="justify-content: flex-start">
@@ -103,10 +106,12 @@
 	</div>
 </template>
 <script>
+import Sort from '../components/Sort'
 import Section from '../components/Section'
 export default {
 	components: {
-		Section
+		Section,
+		Sort
 	},
 	data () {
 		return {
