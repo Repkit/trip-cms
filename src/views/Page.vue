@@ -27,7 +27,7 @@
 								</select>
 							</div>-->
 							<label for="">Insert subsnippet</label>
-							<Sort :data="snippets" :sortBy="'Name'"
+							<Sort :payload="snippets" :sortBy="'Name'"
 								@requestInsertSnippet="insertSnippet">
 							</Sort>
 							<!-- <div class="input-group">
@@ -67,15 +67,22 @@
 				<div class="main-panel" ref="mainpanel" @mousemove="watchhandle($event)" @mouseup="stophandle()" @mouseleave="stophandle()">
                     <template v-if="settings === 'split'">
                         <Section ref="left"
-						:type="'half'"
-						:sec_width="left_sec_width"
-						:sec_height="sec_height"
-						:value="page.Content"
-						:lang="'html'"
-						@onChangeListener="onChange"
-						:insertString="insertString"></Section>
+							:type="'half'"
+							:sec_width="left_sec_width"
+							:sec_height="sec_height"
+							:value="page.Content"
+							:lang="'html'"
+							@onChangeListener="onChange"
+							:insertString="insertString">
+						</Section>
                         <div @mousedown="handle($event)" class="gutter" ref="gutter"></div>
-						<Section ref="left" :type="'render'" :sec_width="right_sec_width" :sec_height="sec_height" :value="page._links['page-url'].href"></Section>
+						<Section ref="left"
+							:type="'render'"
+							:sec_width="right_sec_width"
+							:sec_height="sec_height"
+							:value="page._links['page-url'].href"
+							style="display:flex">
+						</Section>
                         <!-- <Section ref="right" :type="'split'" :sec_width="right_sec_width" :sec_height="sec_height" :value="'Stringoftext'" :toplang="'javascript'" :botlang="'json'"></Section> -->
                     </template>
                     <template v-if="settings === 'tabs'">
@@ -196,6 +203,7 @@ export default {
 			let cursposPos = e.clientX - 239
 			this.left_sec_width = Math.ceil(Math.max(140, (cursposPos - 1)))
 			this.right_sec_width = (((window.innerWidth - 1) - 239) - this.left_sec_width)
+			this.left_sec_width;
 		},
 		watchhandle (e) {
 			if (this.mousemove === false) {

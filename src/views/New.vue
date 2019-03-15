@@ -29,9 +29,8 @@
 								</div>-->
 								<label for="">Insert subsnippet</label>
 								<div class="input-group">
-									<Sort :data="snippets" :sortBy="'Name'"
-										@requestInsertSnippet="insertSnippet">
-									</Sort>
+									<Sort :payload="snippets" :sortBy="'Name'"
+									@requestInsertSnippet="insertSnippet"></Sort>
 										<!-- <select name="" id="" v-model="selectedSnippet">
 											<option value="" disabled selected hidden>Chose snippet</option>
 											<option v-for="(item, i) in snippets" :key="i" :value="item.Placeholder">
@@ -117,18 +116,9 @@
 							</div>
 							<div class="input-holder">
 								<label for="">Insert subsnippet</label>
-								<Sort :data="snippets" :sortBy="'Name'"
+								<Sort :payload="snippets" :sortBy="'Name'"
 									@requestInsertSnippet="insertSnippet">
 								</Sort>
-								<!-- <div class="input-group">
-										<select name="" id="" v-model="selectedSnippet">
-											<option value="" disabled selected hidden>Select a snippet</option>
-											<option v-for="(item, i) in snippets" :key="i" :value="item.Placeholder">
-												{{item.Name}}
-											</option>
-									</select>
-									<button class="btn btn-green" @click.prevent="insertSnippet">Add</button>
-								</div> -->
 							</div>
 							<div class="input-holder">
 								<label for="">Data source</label>

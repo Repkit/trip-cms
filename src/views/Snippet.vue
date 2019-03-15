@@ -27,7 +27,7 @@
 						</div>
 						<div class="input-holder">
 							<label for="">Insert subsnippet</label>
-							<Sort :data="snippets" :sortBy="'Name'"
+							<Sort :payload="snippets" :sortBy="'Name'"
 								@requestInsertSnippet="insertSnippet">
 							</Sort>
 							<!-- <div class="input-group">
