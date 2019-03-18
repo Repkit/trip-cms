@@ -156,7 +156,8 @@
 								:toptitle="'(template)'"
 								:bottitle="'(styles)'"
 								:toplang="'twig'"
-								:botlang="'css'">
+								:botlang="'css'"
+								:insertString="insertString">
 							</Section>
 							<div @mousedown="handle($event)" class="gutter" ref="gutter"></div>
 							<Section ref="right"
