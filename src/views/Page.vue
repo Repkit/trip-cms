@@ -167,8 +167,8 @@ export default {
 				this.page.Crawlable = '1';
 			}
 		},
-		insertSnippet () {
-			return this.insertString = this.selectedSnippet
+		insertSnippet (val) {
+			return this.insertString = val.Placeholder
 		},
 		onChange (val) {
 			this.page.Content = val

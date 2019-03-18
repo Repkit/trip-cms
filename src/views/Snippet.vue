@@ -309,8 +309,8 @@ export default {
 		requestData (val) {
 			this.$store.dispatch('requestData', val.Id);
 		},
-		insertSnippet () {
-			return this.insertString = this.selectedSnippet
+		insertSnippet (val) {
+			return this.insertString = val.Placeholder
 		},
 		onChange (val) {
 			this.snippet.Template = val
