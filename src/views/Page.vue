@@ -78,6 +78,7 @@
                         <div @mousedown="handle($event)" class="gutter" ref="gutter"></div>
 						<Section ref="left"
 							:type="'render'"
+							:iframeZindexValue="iframeZindexValue"
 							:sec_width="right_sec_width"
 							:sec_height="sec_height"
 							:value="page._links['page-url'].href"
@@ -125,6 +126,7 @@ export default {
 			// new
 			left_sec_width: 0,
 			right_sec_width: 0,
+			iframeZindexValue: 0,
 			// sec_width: 0,
 			sec_height: 0,
 			full_width: 0,
@@ -197,6 +199,7 @@ export default {
 			this.gutter = e.target
 			if (e.target === this.gutter) {
 				this.mousemove = true
+				this.iframeZindexValue = '-1'
 			}
 		},
 		resizeSiblings (e) {
@@ -213,6 +216,7 @@ export default {
 		},
 		stophandle () {
 			this.mousemove = false
+			this.iframeZindexValue = '0'
 		}
 	},
 	mounted () {

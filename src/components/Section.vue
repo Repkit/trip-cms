@@ -62,7 +62,7 @@
 		<div class="render-width render">
 			<a :href="value" target="_blank">{{sec_width}} px</a>
 		</div>
-		<iframe id="previewPage" :width="(sec_width - 1) + 'px'" :height="(sec_height - 1) + 'px'" resize="both" sandbox="allow-forms allow-scripts allow-same-origin allow-modals allow-popups" :src="value" frameborder="0"></iframe>
+		<iframe :style="{'z-index': iframeZindexValue}" :width="(sec_width - 1) + 'px'" :height="(sec_height - 1) + 'px'" resize="both" sandbox="allow-forms allow-scripts allow-same-origin allow-modals allow-popups" :src="value" frameborder="0"></iframe>
 	</div>
 </template>
 <script>
@@ -73,7 +73,7 @@ export default {
 		Editor,
 		DropDown
 	},
-	props: ['value', 'lang', 'type', 'sec_width', 'sec_height', 'toplang', 'botlang', 'insertString', 'topval', 'botval', 'toptitle', 'bottitle'],
+	props: ['value', 'lang', 'type', 'sec_width', 'sec_height', 'toplang', 'botlang', 'insertString', 'topval', 'botval', 'toptitle', 'bottitle', 'iframeZindexValue'],
 	data () {
 		return {
 			dataSource: '',
@@ -145,13 +145,8 @@ export default {
 		}
 	},
 	mounted () {
-		
 	}
 }
 </script>
 <style lang="scss">
-#previewPage {
-	// height: calc(100% - 1px);
-	z-index: -1
-}
 </style>

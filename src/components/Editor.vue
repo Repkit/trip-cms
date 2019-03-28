@@ -1,5 +1,5 @@
 <template>
-    <div ref="editor" class="editor" :style="{width: width + 'px', height: height + 'px',}">
+    <div ref="editor" class="editor" :style="{width: width + 'px', height: `${height}px`,}">
 	</div>
 </template>
 <script>
@@ -75,6 +75,7 @@ export default {
 		}
 	},
 	mounted () {
+		// console.log(this.height)
 		let vm = this; let editor
 		
 		/*if(this.lang === 'twig' || this.lang === 'html'){
@@ -134,6 +135,6 @@ export default {
 <style lang="scss">
 .editor {
     width: 100%;
-    height: calc(100% - 30px);
+    height: calc(100% - 37px);
 }
 </style>
