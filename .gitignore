@@ -13,6 +13,7 @@ yarn-error.log*
 
 # Editor directories and files
 .idea
+.theia
 .vscode
 *.suo
 *.ntvs*

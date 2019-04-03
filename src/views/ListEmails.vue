@@ -2,14 +2,14 @@
 	<div class="component-container">
 		<div class="heading">
 			<p>Email Templates</p>
-			<router-link tag="button" class="btn btn-green" :to="{ name: 'new', params: {type: 'page'}}">
+			<router-link tag="button" class="btn btn-green" :to="{ name: 'new', params: {type: 'email-template'}}">
 				New Email Template
 			</router-link>
 			<!--<form @submit.prevent="search(filterQuery)">-->
 			<!--	<input type="text" class="search-input" v-model="filterQuery" placeholder="Search Page Name">-->
 			<!--	<input type="submit" hidden>-->
 			<!--</form>-->
-			
+
 		</div>
 		<div class="content" ref="content" style="height:calc(100% - 42px)">
 			<table class="list" cellpadding="0" cellspacing="0" width="100%">
@@ -139,7 +139,7 @@ export default {
 		emails () {
 			return this.$store.getters.getEmails
 		}
-		
+
 	},
 	created() {
 		this.$store.dispatch('fetchEmails')

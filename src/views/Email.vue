@@ -7,61 +7,30 @@
 						<button type="submit" class="submit-styled">
 							<font-awesome-icon :icon="['fas', 'rocket']"></font-awesome-icon><p>Publish email</p>
 						</button>
-						
+
 						<div class="input-holder">
 							<label for="">Name *</label>
-							<input type="text" required v-model="page.Name" placeholder="Page name">
+							<input type="text" required v-model="email.Name" placeholder="Email template name">
 						</div>
 						<div class="input-holder">
 							<label for="">Category</label>
-							<input type="text" v-model="page.Category" placeholder="Page category">
+							<input type="text" v-model="email.Category" placeholder="Email template category">
 						</div>
 						<div class="input-holder">
-							<!--<label for="">Head snippet</label>
-							<div class="input-group">
-									<select name="" id="" :v-model="page.Head">
-									<option value="" disabled selected hidden>Chose Header Snippet</option>
-									<option value="">No Header</option>
-									<option value="" v-for="(item, i) in headSnippets" :key="i">
-										{{item.Name}}
-									</option>
-								</select>
-							</div>-->
 							<label for="">Insert subsnippet</label>
 							<Sort :payload="snippets" :sortBy="'Name'"
 								@requestInsertSnippet="insertSnippet">
 							</Sort>
-							<!-- <div class="input-group">
-									<select name="" id="" v-model="selectedSnippet">
-										<option value="" disabled selected hidden>Select a snippet</option>
-										<option v-for="(item, i) in snippets" :key="i" :value="item.Placeholder">
-											{{item.Name}}
-										</option>
-								</select>
-								<button class="btn btn-green" @click.prevent="insertSnippet">Add</button>
-							</div> -->
 						</div>
 						<div class="input-holder">
 							<div class="togglecheckbox" style="justify-content: flex-start">
-								<span id="fullPage" class="toggle-icon" :class="page.FullPage == 1 ? 'checked': ''" @click="toggleFullPage"></span>
-								<label class="label-text" for="fullPage" @click="toggleFullPage">Full page</label>
-							</div>
-						</div>
-						<div class="input-holder">
-							<div class="togglecheckbox" style="justify-content: flex-start">
-								<span id="staticPage" class="toggle-icon" :class="page.StaticPage == 1 ? 'checked': ''" @click="toggleStaticPage"></span>
-								<label class="label-text" for="staticPage" @click="toggleStaticPage">Static page</label>
-							</div>
-						</div>
-						<div class="input-holder">
-							<div class="togglecheckbox" style="justify-content: flex-start">
-								<span id="crawlablePage" class="toggle-icon" :class="page.Crawlable == 1 ? 'checked': ''" @click="toggleCrawlablePage"></span>
-								<label class="label-text" for="crawlablePage" @click="toggleCrawlablePage">Crawlable page</label>
+								<span id="staticPage" class="toggle-icon" :class="email.StaticPage == 1 ? 'checked': ''" @click="toggleStaticPage"></span>
+								<label class="label-text" for="staticPage" @click="toggleStaticPage">Static email template</label>
 							</div>
 						</div>
 						<div class="input-holder">
 							<label for="">Details</label>
-							<textarea v-model="page.Details" rows="4" cols="30"></textarea>
+							<textarea v-model="email.Details" rows="4" cols="30"></textarea>
 						</div>
 					</form>
 				</div>
@@ -71,7 +40,7 @@
 							:type="'half'"
 							:sec_width="left_sec_width"
 							:sec_height="sec_height"
-							:value="page.Content"
+							:value="email.Content"
 							:lang="'html'"
 							@onChangeListener="onChange"
 							:insertString="insertString">
@@ -82,10 +51,9 @@
 							:iframeZindexValue="iframeZindexValue"
 							:sec_width="right_sec_width"
 							:sec_height="sec_height"
-							:value="page._links['page-url'].href"
+							:value="email._links['page-url'].href"
 							style="display:flex">
 						</Section>
-                        <!-- <Section ref="right" :type="'split'" :sec_width="right_sec_width" :sec_height="sec_height" :value="'Stringoftext'" :toplang="'javascript'" :botlang="'json'"></Section> -->
                     </template>
                     <template v-if="settings === 'tabs'">
                         <div class="tabs_container">
@@ -98,13 +66,13 @@
 									:type="'full'"
 									:sec_width="full_width"
 									:sec_height="full_height"
-									:value="page.Content"
+									:value="email.Content"
 									:lang="'html'"
 									@onChangeListener="onChange"
 									:insertString="insertString"></Section>
 								</div>
 								<div class="section-full " v-else-if="activeTab == 1">
-									<Section ref="left" :type="'render'" :sec_width="full_width" :sec_height="full_height" :value="page._links['page-url'].href"></Section>
+									<Section ref="left" :type="'render'" :sec_width="full_width" :sec_height="full_height" :value="email._links['page-url'].href"></Section>
 								</div>
 							</div>
 						</div>
@@ -149,49 +117,26 @@ export default {
 		}
 	},
 	methods: {
-		toggleFullPage() {
-			if (this.page.FullPage == '1') {
-				this.page.FullPage = '0';
-			} else {
-				this.page.FullPage = '1';
-			}
-		},
 		toggleStaticPage() {
-			if (this.page.StaticPage == '1') {
-				this.page.StaticPage = '0';
+			if (this.email.StaticPage == '1') {
+				this.email.StaticPage = '0';
 			} else {
-				this.page.StaticPage = '1';
-			}
-		},
-		toggleCrawlablePage() {
-			if (this.page.Crawlable == '1') {
-				this.page.Crawlable = '0';
-			} else {
-				this.page.Crawlable = '1';
+				this.email.StaticPage = '1';
 			}
 		},
 		insertSnippet (val) {
 			return this.insertString = val.Placeholder
 		},
 		onChange (val) {
-			this.page.Content = val
+			this.email.Content = val
 			this.selectedSnippet = ''
-		},
-		// hndFileSelect (path) {
-		// 	this.depend = this.$PROJECT_BASE_URL + '/published/' + path
-		// },
-		openFileBrowser () {
-			this.$store.commit('OPEN_FILEMENU', this)
 		},
 		addSubSnippet (val) {
 			console.log(this.selectedSnippet)
 			return this.selectedSnippet
 		},
 		compilePage () {
-			this.$store.dispatch('savePage', this.page)
-		},
-		addHeadSnippet () {
-
+			this.$store.dispatch('saveEmail', this.email)
 		},
 		toggletab (i) {
 			this.activeTab = i
@@ -233,26 +178,20 @@ export default {
 		settings () {
 			return this.$store.getters.getMode
 		},
-		page () {
-			return this.$store.getters.getPage
-			// return this.$store.getters['GetPages/getPage']
+		email () {
+			return this.$store.getters.getEmail
 		},
 		snippets () {
 			return this.$store.getters.getSnippets
 		},
-		/*headSnippets () {
-			return this.snippets.filter((elem) => {
-				return elem.Category === 'Head'
-			})
-		},*/
-		widgets () {
+        widgets () {
 			return this.$store.getters.getWidgets
 		}
 	},
 	beforeMount () {
-		let pageid = this.$route.params.id
-		if (pageid.length > 0) {
-			this.$store.dispatch('loadPage', this.$route.params.id)
+		let emailid = this.$route.params.id
+		if (emailid.length > 0) {
+			this.$store.dispatch('loadEmail', this.$route.params.id)
 			this.$store.dispatch('fetchSnippets')
 		}
 	}

@@ -127,7 +127,7 @@ const actions = {
 		})
 	},
 	savePage ({ commit, dispatch }, payload) {
-		dispatch('callApi', { 
+		dispatch('callApi', {
 			method: 'PATCH',
 			ingoreBaseUrl: true,
 			url: this._vm.CMS_BASE_URL + '/cms/pages/' + payload.Id,
