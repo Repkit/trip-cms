@@ -9,7 +9,7 @@
 				<input type="text" class="search-input" v-model="filterQuery" placeholder="Search Page Name">
 				<input type="submit" hidden>
 			</form>
-			
+
 		</div>
 		<div class="content" ref="content" style="height:calc(100% - 42px)">
 			<table class="list" cellpadding="0" cellspacing="0" width="100%">
@@ -151,7 +151,7 @@ export default {
 		pages () {
 			return this.$store.getters.getPages
 		}
-		
+
 	},
 	created() {
 		this.$store.dispatch('fetchPages')
