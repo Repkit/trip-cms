@@ -100,6 +100,69 @@
 						</template>
 					</div>
 				</template>
+                <template v-else-if="type === 'email'">
+					<div class="meta-header">
+						<form @submit.prevent="createEmail">
+							<button type="submit" class="submit-styled">
+								<font-awesome-icon :icon="['fas', 'rocket']"></font-awesome-icon><p>Save email</p>
+							</button>
+							<div class="input-holder">
+								<label for="">Name *</label>
+								<input type="text" required v-model="email.Name" placeholder="Name">
+							</div>
+							<div class="input-holder">
+								<label for="">Category </label>
+								<input type="text" v-model="email.Category" placeholder="Template category">
+							</div>
+							<div class="input-holder">
+								<label for="">Insert subsnippet</label>
+								<div class="input-group">
+									<Sort :payload="snippets" :sortBy="'Name'" @requestInsertSnippet="insertSnippet"></Sort>
+								</div>
+							</div>
+							<div class="input-holder">
+								<label for="">Details </label>
+								<textarea v-model="email.Details" rows="4" cols="28" style="background-color: #1c2128;"></textarea>
+							</div>
+						</form>
+					</div>
+					<div class="main-panel" ref="mainpanel">
+						<template v-if="settings === 'split'">
+							<Section ref="left"
+							:type="'half'"
+							:sec_width="full_width"
+							:sec_height="full_height"
+							:value="email.Content"
+							:lang="'html'"
+							@onChangeListener="onChangeHTMLEmail"
+							:insertString="insertString"></Section>
+						</template>
+						<template v-if="settings === 'tabs'">
+							<div class="tabs_container">
+								<div class="editor_tabs">
+									<div class="editor_tabs_item" :class="{active: activeTab == i}" @click="toggletab(i)" v-for="(item, i) in page_tabs" :key="i">
+                                        <p>{{item.type}}</p>
+                                    </div>
+								</div>
+								<div class="editor_tabs_content">
+									<div class="section-full" v-if="activeTab == 0">
+										<Section ref="left"
+										:type="'full'"
+										:sec_width="full_width"
+										:sec_height="full_height - 47"
+										:value="email.Content"
+										:lang="'html'"
+										@onChangeListener="onChangeHTMLEmail"
+										:insertString="insertString"></Section>
+									</div>
+									<div class="section-full " v-else-if="activeTab == 1">
+										<Section ref="left" :type="'render'" :sec_width="full_width" :sec_height="full_height" :value="email._links['page-url'].href"></Section>
+									</div>
+								</div>
+							</div>
+						</template>
+					</div>
+				</template>
 				<template v-else>
 					<div class="meta-header">
 						<form @submit.prevent="createSnippet">
@@ -420,6 +483,20 @@ export default {
 			this.$store.dispatch('createSnippet', snippetData)
 			this.$store.dispatch('createPostScript', snippetData)
 		},
+        createEmail () {
+			var emailData = {
+				Name: this.email.Name,
+				Category: this.email.Category,
+				Content: this.email.Content,
+				Head: "",
+				FullPage: "1",
+				StaticPage: "0",
+				Crawlable: "1",
+				Details: this.page.Details,
+				Status: '1'
+			}
+			this.$store.dispatch('createEmail', emailData)
+		},
 		addHeadSnippet () {
 
 		},
@@ -435,6 +512,10 @@ export default {
 		},
 		onChangeHTMLSnippet (val) {
 			this.snippet.Template = val
+			this.selectedSnippet = ''
+		},
+        onChangeHTMLEmail (val) {
+			this.email.Content = val
 			this.selectedSnippet = ''
 		},
 		onChangeCSSSnippet (val) {
@@ -482,12 +563,13 @@ export default {
 			this.postopmodal = 387
 			this.posleftmodal = 246
 		}
-		
+
 	},
 	beforeMount () {
 		this.type = this.$route.params.type
 		this.$store.dispatch('clearPageState');
 		this.$store.dispatch('clearSnippetState');
+		this.$store.dispatch('clearEmailState');
 	},
 	computed: {
 		snippet() {
@@ -495,6 +577,9 @@ export default {
 		},
 		page() {
 			return this.$store.getters.getPage
+		},
+		email() {
+			return this.$store.getters.getEmail
 		},
 		settings () {
 			return this.$store.getters.getMode

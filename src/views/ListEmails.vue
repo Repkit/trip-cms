@@ -2,7 +2,7 @@
 	<div class="component-container">
 		<div class="heading">
 			<p>Email Templates</p>
-			<router-link tag="button" class="btn btn-green" :to="{ name: 'new', params: {type: 'email-template'}}">
+			<router-link tag="button" class="btn btn-green" :to="{ name: 'new', params: {type: 'email'}}">
 				New Email Template
 			</router-link>
 			<!--<form @submit.prevent="search(filterQuery)">-->
@@ -16,7 +16,7 @@
 				<thead class="list-heading">
 					<tr>
 						<th align="center"><p>Id</p></th>
-						<th align="center"><p>Name</p></th>
+						<th><button class="btn btn-icon">Name</button></th>
 						<th align="center"><p>Status</p></th>
 						<th align="center"><p>Actions</p></th>
 					</tr>

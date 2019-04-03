@@ -7,7 +7,7 @@ const state = {
 		Content: '',
 		Head: '',
 		StaticPage: '0',
-		Crawlable: '0',
+		Crawlable: '1',
 		Category: '',
 		Details: '',
 		FullPage: '1',
@@ -48,7 +48,7 @@ const mutations = {
 			Content: '',
 			Head: '',
 			StaticPage: '0',
-			Crawlable: '0',
+			Crawlable: '1',
 			Category: '',
 			Details: '',
 			FullPage: '1',
@@ -158,6 +158,7 @@ const actions = {
 		})
 	},
 	fetchEmails ({ commit, dispatch, getters }) {
+        //https://developers.dcsplus.net/workspaces/public/users/johnnyb/flux/api.php/cms/pages?filter[0][name]=Name&filter[0][term]=index&limit=10
 		dispatch('callApi', {
 			method: 'GET',
 			ingoreBaseUrl: true,

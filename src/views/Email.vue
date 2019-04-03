@@ -10,23 +10,17 @@
 
 						<div class="input-holder">
 							<label for="">Name *</label>
-							<input type="text" required v-model="email.Name" placeholder="Email template name">
+							<input type="text" required v-model="email.Name" placeholder="Name">
 						</div>
 						<div class="input-holder">
 							<label for="">Category</label>
-							<input type="text" v-model="email.Category" placeholder="Email template category">
+							<input type="text" v-model="email.Category" placeholder="Template category">
 						</div>
 						<div class="input-holder">
 							<label for="">Insert subsnippet</label>
 							<Sort :payload="snippets" :sortBy="'Name'"
 								@requestInsertSnippet="insertSnippet">
 							</Sort>
-						</div>
-						<div class="input-holder">
-							<div class="togglecheckbox" style="justify-content: flex-start">
-								<span id="staticPage" class="toggle-icon" :class="email.StaticPage == 1 ? 'checked': ''" @click="toggleStaticPage"></span>
-								<label class="label-text" for="staticPage" @click="toggleStaticPage">Static email template</label>
-							</div>
 						</div>
 						<div class="input-holder">
 							<label for="">Details</label>
@@ -117,13 +111,6 @@ export default {
 		}
 	},
 	methods: {
-		toggleStaticPage() {
-			if (this.email.StaticPage == '1') {
-				this.email.StaticPage = '0';
-			} else {
-				this.email.StaticPage = '1';
-			}
-		},
 		insertSnippet (val) {
 			return this.insertString = val.Placeholder
 		},
@@ -135,7 +122,7 @@ export default {
 			console.log(this.selectedSnippet)
 			return this.selectedSnippet
 		},
-		compilePage () {
+		compileEmail () {
 			this.$store.dispatch('saveEmail', this.email)
 		},
 		toggletab (i) {

@@ -5,8 +5,10 @@ import Dashboard from './views/Dashboard.vue'
 import Login from './views/Login.vue'
 import Page from './views/Page.vue'
 import Snippet from './views/Snippet.vue'
+import Email from './views/Email.vue'
 import ListPages from './views/ListPages.vue'
 import ListSnippets from './views/ListSnippets.vue'
+import ListEmails from './views/ListEmails.vue'
 import New from './views/New.vue'
 
 Vue.use(Router)
