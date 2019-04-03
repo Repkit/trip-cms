@@ -37,10 +37,10 @@
 					<font-awesome-icon :icon="['far', 'file-code']"></font-awesome-icon>
 					<p>Snippets</p>
 				</router-link>
-				<!-- <router-link tag="div" class="sidenav-item" :to="{ path: '/email-templates', name: 'email-templates'}">
+				<router-link tag="div" class="sidenav-item" :to="{ path: '/email-templates', name: 'email-templates'}">
 					<font-awesome-icon :icon="['fas', 'envelope-open-text']"></font-awesome-icon>
 					<p>Email templates</p>
-				</router-link> -->
+				</router-link>
 			</div>
 			<div class="sidenav-right">
 				<div class="sidenav-item">
@@ -73,7 +73,7 @@
 						<p>Sign In</p>
 					</router-link>
 				</template>
-				
+
 			</div>
 		</div>
 		<div class="main-container">
@@ -469,7 +469,7 @@ table {
 		color: #1C2128;
 		font-size: 14px;
 		padding:0 7px;
-		
+
 		&.label-text {
 			font-size: 13px;
 			color: #FBFBFB;
@@ -843,7 +843,7 @@ table {
 	padding: 6px 7px;
 	border-radius: 4px;
 	background: #64B448;
-	margin: 0 0 14px 0; 
+	margin: 0 0 14px 0;
 
 	p {
 		margin: 0;
@@ -856,7 +856,7 @@ table {
 	svg {
 		color: #FBFBFB;
 		font-size: 12px;
-		
+
 		&:hover {
 			cursor: pointer;
 		}
@@ -868,7 +868,7 @@ table {
 	left: 0;
 	width: 100%;
 	background: #20262E;
-	border: #2D333B solid 1px;	
+	border: #2D333B solid 1px;
 	z-index: 2;
 	height: 200px;
 	overflow-y: auto;
