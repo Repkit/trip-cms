@@ -166,7 +166,7 @@
 								:sec_height="sec_height"
 								:botval="dataResponse"
 								:topval="snippet.PostScript"
-								@onChangeListener="onChangeJavascript"
+								@onTopChangeListener="onChangeJavascript"
 								:toptitle="snippet.Static == 1 ? '(document.ready)': '(render.post)'"
 								:bottitle="'(data source response [__ds])'"
 								:toplang="'javascript'"
@@ -227,7 +227,7 @@
 							<div class="modal leftdir" :style="{top: postopmodal + 'px', left: posleftmodal + 'px'}">
 								<div class="modal-form-content">
 								<template v-if="wichDataType === '0'">
-										<label for="">Data source url - all widgets defined</label>
+										<label for="">Data source url - all endpoints defined</label>
 										<div class="form-section">
 											<select @change="requestData(selectedData)" name="" id="" v-model="selectedData">
 												<option value="" disabled selected hidden>Select data</option>
@@ -238,7 +238,7 @@
 										</div>
 										<div v-if="datasourceparams.length > 0">
 											<form @submit.prevent="generatedatasource">
-											<label for="">Widget required values</label>
+											<label for="">Endpoint required values</label>
 											<div class="data-source-params">
 												<input v-for="(item, i) in datasourceparams" v-model="querydatasrouceparams[i]" required :key="i" type="number" :placeholder="item.Name">
 											</div>
@@ -288,7 +288,7 @@ export default {
 			querydatasrouceparams: [],
 			datatype: '',
 			datatypes: [
-				{Id: 0, Name: 'Choose from widget builder module'},
+				{Id: 0, Name: 'Choose from endpoint builder module'},
 				{Id: 1, Name: 'Add an external data source type'}
 			],
 			isActiveDataModal: false,
@@ -382,7 +382,7 @@ export default {
 			}
 		},
 		addSubSnippet (val) {
-			console.log(this.selectedSnippet)
+			// console.log(this.selectedSnippet)
 			return this.selectedSnippet
 		},
 		createPage () {
@@ -407,15 +407,18 @@ export default {
 				Name: this.snippet.Name,
 				Category: this.snippet.Category,
 				Template: this.snippet.Template,
+				Static: this.snippet.Static,
 				PreScript: this.snippet.PreScript,
-				PostScript: this.snippet.Name,
+				// PostScript: this.snippet.Name + '_postScript.js',
 				Css: this.snippet.Css,
 				DataUrl: this.snippet.DataUrl,
 				Status: this.snippet.Status,
+				Params: this.snippet.Params,
 				PostScriptContent: this.snippet.PostScript
 			}
 			// this.$store.dispatch('createSnippet', this.snippet)
 			this.$store.dispatch('createSnippet', snippetData)
+			this.$store.dispatch('createPostScript', snippetData)
 		},
 		addHeadSnippet () {
 
@@ -438,7 +441,7 @@ export default {
 			this.snippet.Css = val
 		},
 		onChangeJavascript (val) {
-			this.snippetPostScript = val;
+			this.snippet.PostScript = val
 		},
 		onChangeJson (val) {
 

@@ -3,9 +3,9 @@
 		<div class="content">
 			<div class="panel-container">
 				<div class="meta-header">
-					<form @submit.prevent="compilePage">
+					<form @submit.prevent="compileEmail">
 						<button type="submit" class="submit-styled">
-							<font-awesome-icon :icon="['fas', 'rocket']"></font-awesome-icon><p>Publish page</p>
+							<font-awesome-icon :icon="['fas', 'rocket']"></font-awesome-icon><p>Publish email</p>
 						</button>
 						
 						<div class="input-holder">

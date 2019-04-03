@@ -306,13 +306,13 @@ const actions = {
 				Category: payload.Category,
 				DataUrl: payload.DataUrl,
 				Status: '1',
-				Static: '1',
+				Static: payload.Static,
 				PreScript: payload.PreScript,
 				PostScript: this._vm.PROJECT_BASE_URL + '/published/js/' + payload.Name + '_postScript.js',
 				Css: payload.Css,
 				Params: payload.Params
 			} }).then((resp) => {
-			dispatch('createPostScript', payload)
+			// dispatch('createPostScript', payload)
 			router.push({ name: 'snippet', params: { id: resp.data.Id } })
 			commit('Toast/_add', 'Snippet created')
 		}).catch((err) => {

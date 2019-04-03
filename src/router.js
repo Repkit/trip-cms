@@ -45,6 +45,16 @@ const router = new Router({
 					name: 'snippet',
 					component: Snippet
 				},
+				/*{
+					path: 'email-templates',
+					name: 'email-templates',
+					component: ListSnippets //ListEmailTemplates
+				},
+				{
+					path: 'email-template/:id',
+					name: 'email-template',
+					component: Snippet //EmailTemplate
+				},*/
 				{
 					path: 'new/:type',
 					name: 'new',

@@ -1,44 +1,32 @@
 <template>
 	<div class="component-container">
 		<div class="heading">
-			<p>Pages</p>
+			<p>Email Templates</p>
 			<router-link tag="button" class="btn btn-green" :to="{ name: 'new', params: {type: 'page'}}">
-				New Page
+				New Email Template
 			</router-link>
-			<form @submit.prevent="search(filterQuery)">
-				<input type="text" class="search-input" v-model="filterQuery" placeholder="Search Page Name">
-				<input type="submit" hidden>
-			</form>
+			<!--<form @submit.prevent="search(filterQuery)">-->
+			<!--	<input type="text" class="search-input" v-model="filterQuery" placeholder="Search Page Name">-->
+			<!--	<input type="submit" hidden>-->
+			<!--</form>-->
 			
 		</div>
 		<div class="content" ref="content" style="height:calc(100% - 42px)">
 			<table class="list" cellpadding="0" cellspacing="0" width="100%">
 				<thead class="list-heading">
 					<tr>
-						<th>
-							<button class="btn btn-icon" @click="sortbyindex()">
-								Id
-								<!-- <font-awesome-icon
-								:icon="['fas', activeindex ? 'sort-down' : 'sort-up']"></font-awesome-icon> -->
-							</button>
-						</th>
-						<th>
-							<button class="btn btn-icon" @click="sortbyname()">
-								Name
-								<!-- <font-awesome-icon
-								:icon="['fas', activename ? 'sort-down' : 'sort-up']"></font-awesome-icon> -->
-							</button>
-						</th>
+						<th align="center"><p>Id</p></th>
+						<th align="center"><p>Name</p></th>
 						<th align="center"><p>Status</p></th>
 						<th align="center"><p>Actions</p></th>
 					</tr>
 				</thead>
-				<tr v-for="(item, i) in pages"
+				<tr v-for="(item, i) in emails"
 				:key="i"
 				class="list-item">
 					<td class="list-item-id"><p>{{item.Id}}</p></td>
 					<td class="list-item-grow">
-						<router-link tag="button" class="btn btn-icon" :to="{name: 'page', params: { id: item.Id }}">
+						<router-link tag="button" class="btn btn-icon" :to="{name: 'email', params: { id: item.Id }}">
 							{{item.Name}}
 						</router-link>
 					</td>
@@ -48,20 +36,20 @@
 						</div>
 					</td>
 					<td class="list-item-action">
-						<router-link tag="button" class="btn btn-icon" :to="{name: 'page', params: { id: item.Id }}">
+						<router-link tag="button" class="btn btn-icon" :to="{name: 'email', params: { id: item.Id }}">
 							<font-awesome-icon :icon="['far', 'edit']"></font-awesome-icon>
 						</router-link>
-						<button class="btn btn-icon" @click.prevent="askModalDeletePage(item)">
-							<font-awesome-icon :icon="['far', 'trash-alt']"></font-awesome-icon>
-						</button>
+						<!--<button class="btn btn-icon" @click.prevent="askModalDeleteEmail(item)">-->
+						<!--	<font-awesome-icon :icon="['far', 'trash-alt']"></font-awesome-icon>-->
+						<!--</button>-->
 					</td>
 				</tr>
 			</table>
-			<transition name="fade" mode="out-in">
-				<div v-if="activeModal" @click.self="closemodal($event)" class="full-screen-wrapper">
-					<Modal @modalResponse="modalResponse" :note="note" :message="message"></Modal>
-				</div>
-			</transition>
+			<!--<transition name="fade" mode="out-in">-->
+			<!--	<div v-if="activeModal" @click.self="closemodal($event)" class="full-screen-wrapper">-->
+			<!--		<Modal @modalResponse="modalResponse" :note="note" :message="message"></Modal>-->
+			<!--	</div>-->
+			<!--</transition>-->
 		</div>
 	</div>
 </template>
@@ -74,23 +62,23 @@ export default {
 	data () {
 		return {
 			index: 0,
-			active: false,
+			// active: false,
 			// modal
-			filterQuery: '',
-			activeModal: false,
-			message: '',
-			note: '',
-			activeindex: false,
-			activename: false,
+			// filterQuery: '',
+			// activeModal: false,
+			// message: '',
+			// note: '',
+			// activeindex: false,
+			// activename: false,
 			pagei: 0,
-			sorting: ['sort-down', 'sort-up']
+			// sorting: ['sort-down', 'sort-up']
 		}
 	},
 	mounted () {
 		this.$refs.content.offsetWidth
 	},
 	methods: {
-		search(val) {
+		/*search(val) {
 			if (val.length > 0) {
 				this.$store.dispatch('searchPages', val)
 			} else {
@@ -131,7 +119,7 @@ export default {
 		},
 		toggle (value) {
 
-		},
+		},*/
 		toggleicon (val) {
 			let newstatus
 			if (val.Status === '1') {
@@ -143,18 +131,18 @@ export default {
 				Id: val.Id,
 				Status: newstatus,
 			}
-			this.$store.dispatch('togglePageStatus', payload)
+			this.$store.dispatch('toggleEmailStatus', payload)
 			val.Status = newstatus;
 		}
 	},
 	computed: {
-		pages () {
-			return this.$store.getters.getPages
+		emails () {
+			return this.$store.getters.getEmails
 		}
 		
 	},
 	created() {
-		this.$store.dispatch('fetchPages')
+		this.$store.dispatch('fetchEmails')
 	}
 }
 </script>

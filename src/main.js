@@ -9,12 +9,12 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { faVuejs } from '@fortawesome/free-brands-svg-icons'
 import { faToggleOn, faToggleOff, faAngleLeft, faAngleRight, faTimes, faSort,
-	faSortDown, faSortUp, faSlidersH, faRocket, faSignOutAlt, faFileUpload } from '@fortawesome/free-solid-svg-icons'
+	faSortDown, faSortUp, faSlidersH, faRocket, faSignOutAlt, faFileUpload, faBook, faEnvelopeOpenText, faEye } from '@fortawesome/free-solid-svg-icons'
 import { faUserCircle, faFileAlt, faFileCode, faEdit, faTrashAlt, faPlayCircle, faSave
 } from '@fortawesome/free-regular-svg-icons'
 library.add(faUserCircle, faFileAlt, faFileCode, faVuejs, faEdit, faTrashAlt, faToggleOn, faToggleOff, faAngleLeft,
 	faAngleRight, faTimes, faSort, faSortDown, faSortUp, faPlayCircle, faSave, faSlidersH, faRocket, faSignOutAlt,
-	faFileUpload)
+	faFileUpload, faBook, faEnvelopeOpenText, faEye)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 

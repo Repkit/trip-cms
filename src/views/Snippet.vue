@@ -168,7 +168,7 @@
 				<div class="modal leftdir" :style="{top: postopmodal + 'px', left: posleftmodal + 'px'}">
 					<div class="modal-form-content">
 						<template v-if="wichDataType === '0'">
-								<label for="">Data Source Url - all widgets defined</label>
+								<label for="">Data Source Url - all endpoints defined</label>
 								<div class="form-section">
 									<select @change="requestData(selectedData)" name="" id="" v-model="selectedData">
 										<option value="" disabled selected hidden>Select data</option>
@@ -179,7 +179,7 @@
 								</div>
 								<div v-if="datasourceparams.length > 0">
 									<form @submit.prevent="generatedatasource">
-										<label for="">Widget required values</label>
+										<label for="">Endpoint required values</label>
 										<div class="data-source-params">
 											<input v-for="(item, i) in datasourceparams" v-model="querydatasrouceparams[i]" required :key="i" type="number" :placeholder="item.Name">
 										</div>
@@ -237,7 +237,7 @@ export default {
 			querydatasrouceparams: [],
 			datatype: '',
 			datatypes: [
-				{Id: 0, Name: 'Choose from widget builder module'},
+				{Id: 0, Name: 'Choose from endpoint builder module'},
 				{Id: 1, Name: 'Add an external data source type'}
 			],
 			// old

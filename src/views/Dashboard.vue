@@ -37,8 +37,20 @@
 					<font-awesome-icon :icon="['far', 'file-code']"></font-awesome-icon>
 					<p>Snippets</p>
 				</router-link>
+				<!--<router-link tag="div" class="sidenav-item" :to="{ path: '/email-templates', name: 'email-templates'}">-->
+				<!--	<font-awesome-icon :icon="['fas', 'envelope-open-text']"></font-awesome-icon>-->
+				<!--	<p>Email templates</p>-->
+				<!--</router-link>-->
 			</div>
 			<div class="sidenav-right">
+				<div class="sidenav-item">
+					<font-awesome-icon :icon="['fas', 'rocket']"></font-awesome-icon>
+					<p><a target="_blank" href="https://trippublic.dcsplus.net/dynapack-documentation/login.php?developer=true">REST Api</a></p>
+				</div>
+				<div class="sidenav-item">
+					<font-awesome-icon :icon="['fas', 'book']"></font-awesome-icon>
+					<p><a target="_blank" href="https://developers.dcsplus.net/users/demo/docs/published/index.html">Docs</a></p>
+				</div>
 				<div class="sidenav-item" @click="togglesettings()" ref="settings">
 					<font-awesome-icon :icon="['fas', 'sliders-h']"></font-awesome-icon>
 					<p>Settings</p>
@@ -569,6 +581,7 @@ table {
 	font-size: 12px;
 	color: #fbfbfb;
 	border: #2D333B solid 1px;
+	z-index:1;
 }
 .input-group {
 	display: flex;
@@ -876,5 +889,13 @@ table {
 .sort-container {
 	position:relative;
 	z-index: 11;
+}
+
+.render-header {
+	text-transform: none;
+}
+
+.render-header > a {
+	color:#8e9195;
 }
 </style>

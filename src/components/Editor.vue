@@ -112,6 +112,7 @@ export default {
 		editor.setOptions({
 		  enableBasicAutocompletion: true,
 		  enableSnippets: true,
+		  //fontSize: 14,
 		  enableLiveAutocompletion: false
 		  //,enableEmmet: true
 		});
@@ -123,6 +124,13 @@ export default {
 			},
 			readOnly: true
 		}]);
+		/*editor.commands.addCommand({
+		    name: 'save',
+		    bindKey: {win: "Ctrl-S", "mac": "Cmd-S"},
+		    exec: function(editor) {
+		        console.log("saving", editor.session.getValue())
+		    }
+		});*/
 		
 		editor.renderer.setShowGutter(true)
 		editor.session.setUseWrapMode(true)
