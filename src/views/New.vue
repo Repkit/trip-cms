@@ -556,7 +556,8 @@ export default {
 		this.sec_height = mainHeight
 		this.full_width = mainWidth
 		this.full_height = mainHeight - 36
-		if(typeof this.$refs != 'undefined'){
+        //something is not ok here O_o
+		if(typeof this.$refs != 'undefined' && typeof this.$refs.datatypesSelect != 'undefined'){
 			this.postopmodal = this.$refs.datatypesSelect.offsetTop - 14
 			this.posleftmodal = (this.$refs.datatypesSelect.offsetLeft + this.$refs.datatypesSelect.offsetWidth) + 15;
 		}else{

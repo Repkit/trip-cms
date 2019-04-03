@@ -26,7 +26,7 @@
 				class="list-item">
 					<td class="list-item-id"><p>{{item.Id}}</p></td>
 					<td class="list-item-grow">
-						<router-link tag="button" class="btn btn-icon" :to="{name: 'email', params: { id: item.Id }}">
+						<router-link tag="button" class="btn btn-icon" :to="{name: 'email-template', params: { id: item.Id }}">
 							{{item.Name}}
 						</router-link>
 					</td>
@@ -36,7 +36,7 @@
 						</div>
 					</td>
 					<td class="list-item-action">
-						<router-link tag="button" class="btn btn-icon" :to="{name: 'email', params: { id: item.Id }}">
+						<router-link tag="button" class="btn btn-icon" :to="{name: 'email-template', params: { id: item.Id }}">
 							<font-awesome-icon :icon="['far', 'edit']"></font-awesome-icon>
 						</router-link>
 						<!--<button class="btn btn-icon" @click.prevent="askModalDeleteEmail(item)">-->
