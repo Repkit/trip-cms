@@ -37,10 +37,10 @@
 					<font-awesome-icon :icon="['far', 'file-code']"></font-awesome-icon>
 					<p>Snippets</p>
 				</router-link>
-				<router-link tag="div" class="sidenav-item" :to="{ path: '/email-templates', name: 'email-templates'}">
+				<!-- <router-link tag="div" class="sidenav-item" :to="{ path: '/email-templates', name: 'email-templates'}">
 					<font-awesome-icon :icon="['fas', 'envelope-open-text']"></font-awesome-icon>
 					<p>Email templates</p>
-				</router-link>
+				</router-link> -->
 			</div>
 			<div class="sidenav-right">
 				<div class="sidenav-item">
