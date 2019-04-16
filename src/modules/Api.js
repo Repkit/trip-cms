@@ -1,5 +1,5 @@
 const state = {
-	
+
 }
 
 const mutations = {}
@@ -65,6 +65,7 @@ const actions = {
 		})
 	},
 	DELETE ({ getters }, payload) {
+    const data = payload.data || {}
 		const url = payload.url
 		let baseURL = payload.baseUrl || this._vm.BASE_URL
 
@@ -74,6 +75,7 @@ const actions = {
 		return this._vm.$http({
 			method: 'delete',
 			url,
+      data,
 			baseURL
 		})
 	}

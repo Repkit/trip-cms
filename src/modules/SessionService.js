@@ -59,7 +59,8 @@ const actions = {
 				}
 				await dispatch('getHash', objectForHashCall) // get authentication hash
 				url = await dispatch('constructUrl', { url, queryParams: state.queryParams }) // construct full url for actual call
-				return dispatch(method, { url, data, ingoreBaseUrl }).then(response => { // make the actual call
+
+        return dispatch(method, { url, data, ingoreBaseUrl }).then(response => { // make the actual call
 					if (response.data.Status === 511) { // token expired
 						expiredTokenHandler(method, url, data) // handle expired token error
 					} else {

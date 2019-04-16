@@ -169,7 +169,7 @@ const actions = {
 	queryDataSourceParams ({ commit, dispatch, getters }, payload) {
 		dispatch('callApi', {
 			method: 'GET',
-			url: '/widget-builder/data-sources/' + payload[0].Id 
+			url: '/widget-builder/data-sources/' + payload[0].Id
 		}).then((res) => {
 			let s = res.data.Url
 			let pattern = /(:[A-Za-z_]+)/g
@@ -203,7 +203,7 @@ const actions = {
 	requestData ({ commit, dispatch, getters }, payload) {
 		dispatch('callApi', {
 			method: 'GET',
-			url: '/widget-builder/data-sources/' + payload + '/data-source-params' 
+			url: '/widget-builder/data-sources/' + payload + '/data-source-params'
 		}).then((resp) => {
 			if (resp.data._embedded.widget_data_source_params.length > 0) {
 				commit('LOAD_DATA_SOURCE_PARAMS', resp.data._embedded.widget_data_source_params)
@@ -234,10 +234,13 @@ const actions = {
 		})
 	},
 	deleteSnippet ({ commit, dispatch }, payload) {
-		dispatch('callApi', { 
+		dispatch('callApi', {
 			method: 'DELETE',
 			ingoreBaseUrl: true,
-			url: this._vm.CMS_BASE_URL + '/cms/snippets/' + payload
+			url: this._vm.CMS_BASE_URL + '/cms/snippets/' + payload,
+      data: {
+        "Id" : payload.Id
+      }
 		}).then((resp) => {
 			dispatch('fetchSnippets')
 			commit('Toast/_add', 'Snippet deleted')
@@ -251,7 +254,7 @@ const actions = {
 		})
 	},
 	saveSnippet ({ commit, dispatch, getters }, payload) {
-		dispatch('callApi', { 
+		dispatch('callApi', {
 			method: 'PATCH',
 			ingoreBaseUrl: true,
 			url: this._vm.CMS_BASE_URL + '/cms/snippets/' + payload.Id,
@@ -284,7 +287,7 @@ const actions = {
 			}else{
 				commit('Toast/_addError', 'Failed to load snippet')
 			}
-			
+
 		})
 	},
 	updateSnippetTemplate ({ commit }, payload) {
@@ -293,9 +296,9 @@ const actions = {
 	updateSnippetCSS ({ commit }, payload) {
 		commit('UPDATE_SNIPPET_CSS', payload)
 	},
-	
+
 	createSnippet ({ commit, dispatch, getters }, payload) {
-		dispatch('callApi', { 
+		dispatch('callApi', {
 			method: 'POST',
 			ingoreBaseUrl: true,
 			url: this._vm.CMS_BASE_URL + '/cms/snippets',
@@ -325,7 +328,7 @@ const actions = {
 		})
 	},
 	toggleSnippetStatus ({ commit, dispatch }, payload) {
-		dispatch('callApi', { 
+		dispatch('callApi', {
 			method: 'PATCH',
 			ingoreBaseUrl: true,
 			url: this._vm.CMS_BASE_URL + '/cms/snippets/' + payload.Id,
