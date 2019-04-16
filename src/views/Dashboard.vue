@@ -26,9 +26,12 @@
 		</transition-group>
 		<div class="sidenav">
 			<div class="sidenav-left">
-				<router-link tag="div" class="sidenav-item dashboard-icon" :to="{ path: '/pages', name: 'pages'}">
+				<!--<router-link tag="div" class="sidenav-item dashboard-icon" :to="{ path: '/pages', name: 'pages'}">-->
 					<!--<font-awesome-icon :icon="['fab', 'vuejs']" />-->
-				</router-link>
+				<!--</router-link>-->
+        <a :href="'https://developers.dcsplus.net/users/' + this.$store._vm.USER">
+          <div class="sidenav-item dashboard-icon"></div>
+        </a>
 				<router-link tag="div" class="sidenav-item" :to="{ path: '/pages', name: 'pages'}">
 					<font-awesome-icon :icon="['far', 'file-alt']"></font-awesome-icon>
 					<p>Pages</p>
@@ -195,6 +198,7 @@ export default {
 			color: #66E994;
 			font-size: 22px;
 		}*/
+    height:41px;
 		margin-top: 5px;
 	    margin-left: 5px;
 	    padding: 0 27px;
