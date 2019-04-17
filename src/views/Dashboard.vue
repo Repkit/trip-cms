@@ -40,6 +40,12 @@
 					<font-awesome-icon :icon="['far', 'file-code']"></font-awesome-icon>
 					<p>Snippets</p>
 				</router-link>
+        <a :href="'https://developers.dcsplus.net/users/' + this.$store._vm.USER + '/' + this.$store._vm.PROJECT + '/published/uploads/browse.php'" target="_blank" class="external-item">
+          <div class="sidenav-item">
+            <font-awesome-icon :icon="['fas','file-upload']"></font-awesome-icon>
+            <p>Uploads</p>
+          </div>
+        </a>
 				<!-- <router-link tag="div" class="sidenav-item" :to="{ path: '/email-templates', name: 'email-templates'}">
 					<font-awesome-icon :icon="['fas', 'envelope-open-text']"></font-awesome-icon>
 					<p>Email templates</p>
@@ -901,5 +907,8 @@ table {
 
 .render-header > a {
 	color:#8e9195;
+}
+.external-item {
+  text-decoration:none;
 }
 </style>
