@@ -40,7 +40,7 @@
 					<font-awesome-icon :icon="['far', 'file-code']"></font-awesome-icon>
 					<p>Snippets</p>
 				</router-link>
-        <a :href="'https://developers.dcsplus.net/users/' + this.$store._vm.USER + '/' + this.$store._vm.PROJECT + '/published/uploads/browse.php'" target="_blank" class="external-item">
+        <a :href="'https://developers.dcsplus.net/users/' + this.$store._vm.USER + '/' + this.$store._vm.PROJECT + '/published/uploads'" target="_blank" class="external-item">
           <div class="sidenav-item">
             <font-awesome-icon :icon="['fas','file-upload']"></font-awesome-icon>
             <p>Uploads</p>
