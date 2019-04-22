@@ -155,10 +155,12 @@ const actions = {
 	},
 	callExternalApi ({ commit, dispatch, getters }, payload) {
 		if(!payload) return;
+    delete this._vm.$http.defaults.headers['Authorization']
+		delete this._vm.$http.defaults.headers['x-hash']
 		axios({
 			method: 'GET',
-			url: payload
-			// withCredentials: true
+			url: payload,
+			withCredentials: true
 		}).then((res) => {
 			commit('load_dataresponce', JSON.stringify(res.data, null, '   '))
 		}).catch((err) => {

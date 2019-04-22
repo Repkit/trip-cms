@@ -55,6 +55,7 @@ const actions = {
 						endpoint: url
 					},
 					data,
+          method: method,
 					ingoreBaseUrl
 				}
 				await dispatch('getHash', objectForHashCall) // get authentication hash
@@ -86,6 +87,10 @@ const actions = {
 		return url
 	},
 	getHash ({ commit, dispatch, getters }, requestData) { // get authentication hash from server (renewed for every call)
+    let method = 'POST'
+    if (requestData.method) {
+      method = requestData.method
+    }
 		let params = ''
 		if (!requestData.ingoreBaseUrl) {
 			requestData.params.endpoint = this._vm.BASE_URL + requestData.params.endpoint
@@ -115,7 +120,7 @@ const actions = {
 		}
 
 		// hash call
-		return dispatch('POST', payload).then(response => {
+		return dispatch(method, payload).then(response => {
 			this._vm.$http.defaults.headers['x-hash'] = response.data.sha // set x-hash header
 			commit('SET_QUERY_PARAMS', response.data.query) // set stored query params
 		})
