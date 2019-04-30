@@ -1,5 +1,5 @@
 <template>
-    <div ref="editor" class="editor" :style="{width: width + 'px', height: `${height}px`,}">
+	<div ref="editor" class="editor" :style="{width: width + 'px', height: `${height}px`,}">
 	</div>
 </template>
 <script>
@@ -76,11 +76,11 @@ export default {
 	},
 	mounted () {
 		// console.log(this.height)
-		let vm = this; let editor
-		
+		let editor;
+
 		/*if(this.lang === 'twig' || this.lang === 'html'){
 			window.emmet = require('emmet')
-			require('brace/ext/emmet')	
+			require('brace/ext/emmet')
 		}  */
 		require('brace/ext/beautify')
 		require('brace/ext/searchbox')
@@ -91,31 +91,48 @@ export default {
 		require('brace/theme/solarized_dark')
 		require('brace/theme/tomorrow_night')
 		require('brace/snippets/' + this.lang)
-		
+
 		ace.acequire('ace/ext/beautify')
 		ace.acequire('ace/ext/searchbox')
 		/*var themelist = ace.acequire('ace/ext/themelist')
 		console.log(themelist)*/
 		ace.acequire('ace/ext/language_tools')
-		
+
 		this.editor = editor = ace.edit(this.$el)
-		
+
 		//settings menu
 		ace.acequire('ace/ext/settings_menu').init(editor)
-		
+
 		// editor.$blockScrolling = Infinity
 		editor.getSession().setMode('ace/mode/' + this.lang)
 		editor.setTheme('ace/theme/tomorrow_night')
 		editor.getSession().setValue(this.value, 1)
-		
-		// enable autocompletion and snippets
-		editor.setOptions({
-		  enableBasicAutocompletion: true,
-		  enableSnippets: true,
-		  //fontSize: 14,
-		  enableLiveAutocompletion: false
-		  //,enableEmmet: true
-		});
+
+		var defaultOptions = {
+			// enable autocompletion and snippets
+			enableBasicAutocompletion: true,
+			enableSnippets: true,
+			//fontSize: 14,
+			enableLiveAutocompletion: false,
+			//,enableEmmet: true
+			showGutter: true,
+			wrap: 'free',
+		}
+		if (window.localStorage) {
+			var userPreferences = window.localStorage.getItem('aceConfig')
+			if (userPreferences) {
+				try {
+					userPreferences = JSON.parse(userPreferences)
+					Object.assign(defaultOptions, userPreferences)
+				}
+				catch(err) {
+					console.error('malformed editor configuration in local storage')
+					window.localStorage.removeItem('aceConfig')
+				}
+			}
+		}
+
+		editor.setOptions(defaultOptions)
 		editor.commands.addCommands([{
 			name: "showSettingsMenu",
 			bindKey: {win: "Ctrl-q", mac: "Ctrl-q"},
@@ -125,16 +142,14 @@ export default {
 			readOnly: true
 		}]);
 		/*editor.commands.addCommand({
-		    name: 'save',
-		    bindKey: {win: "Ctrl-S", "mac": "Cmd-S"},
-		    exec: function(editor) {
-		        console.log("saving", editor.session.getValue())
-		    }
+			name: 'save',
+			bindKey: {win: "Ctrl-S", "mac": "Cmd-S"},
+			exec: function(editor) {
+				console.log("saving", editor.session.getValue())
+			}
 		});*/
-		
-		editor.renderer.setShowGutter(true)
-		editor.session.setUseWrapMode(true)
-		editor.session.on('change', this.onChangeListener)
+
+		editor.session.on('change', this.onChangeListener);
 		// this.$refs.editor.style.fontSize = this.fontsize + 'px'
 		editor.resize();
 	},
@@ -142,7 +157,7 @@ export default {
 </script>
 <style lang="scss">
 .editor {
-    width: 100%;
-    height: calc(100% - 37px);
+	width: 100%;
+	height: calc(100% - 37px);
 }
 </style>
