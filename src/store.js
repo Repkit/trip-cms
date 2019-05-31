@@ -19,14 +19,14 @@ export default new Vuex.Store({
 		SET_COOKIE ({}, payload) {
 			let newCookie = payload.name + '=' + payload.value
 			if (payload.expireTime) {
-				newCookie += ';max-age=' + payload.expireTime // set expire date
+				newCookie += '; Path=/; max-age=' + payload.expireTime // set expire date
 			}
 			document.cookie = newCookie
 		},
 		CLEAR_ALL_COOKIES () {
 			document.cookie.split(';').forEach((cookie) => {
 				const key = cookie.split('=')
-				document.cookie = key[0] + ' =; expires = Thu, 01 Jan 1970 00:00:00 UTC'
+				document.cookie = key[0] + ' =;  Path=/; expires = Thu, 01 Jan 1970 00:00:00 UTC'
 			})
 		}
 	},
