@@ -77,6 +77,7 @@ const mutations = {
 			Placeholder: '',
 			Preview: ''
 		}
+		state.postscriptcontent = ''
 		state.dataresponse = ''
 	},
 	LOAD_DATA_SOURCE_PARAMS (state, datasourceparams) {

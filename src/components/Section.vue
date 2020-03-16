@@ -152,4 +152,17 @@ export default {
 }
 </script>
 <style lang="scss">
+.section-heading.loading {
+	position: relative;
+	&:before {
+		content: "loading";
+		display:block;
+		position:absolute;
+		top:0;
+		right:0;
+		color:yellow;
+		margin-top: 10px;
+    	margin-right: 10px;
+	}
+}
 </style>
